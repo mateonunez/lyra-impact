@@ -12,7 +12,7 @@ t.test("should retrieve the data and create a Lyra instance", t => {
         term: "pikachu",
       });
 
-      console.log({hits: result.count});
+      console.log({ hits: result.count });
 
       t.equal(result.count, 1);
     });
@@ -30,14 +30,14 @@ t.test("should retrieve the data and create a Lyra instance", t => {
 
       t.equal(result.count, 4);
     });
-  })
+  });
 });
 
 t.test("should resolve the schema", t => {
-  t.plan(1)
+  t.plan(1);
 
   t.test("should resolve with impact data", t => {
-    t.plan(1)
+    t.plan(1);
 
     impact("https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json").then(lyra => {
       const expectedSchema = {
@@ -63,11 +63,11 @@ t.test("should resolve the schema", t => {
           "Sp. Defense": "number",
           Speed: "number",
         },
-      }
-  
+      };
+
       t.match(lyra.schema, expectedSchema);
-    })
-  })
+    });
+  });
 });
 
 t.test("errors", t => {
@@ -76,7 +76,7 @@ t.test("errors", t => {
   t.test("should throw an error when the data is not a valid JSON", t => {
     t.plan(1);
 
-    impact("https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json", ).catch(err => {
+    impact("https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json").catch(err => {
       t.equal(err.message, "The request failed: 404");
     });
   });

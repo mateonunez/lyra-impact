@@ -1,8 +1,9 @@
 export type ResolveSchemaOptions = {
   attribute?: string;
-}
+};
 
-export function resolveSchema (schema: any, data: any, options?: ResolveSchemaOptions): any {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function resolveSchema(schema: any, data: any, options?: ResolveSchemaOptions): any {
   let dataNormalized = data;
 
   if (options && options.attribute && data[options.attribute]) {
@@ -18,8 +19,8 @@ export function resolveSchema (schema: any, data: any, options?: ResolveSchemaOp
   } else {
     for (const key in dataNormalized) {
       const type = typeof dataNormalized[key];
-  
-      if(Array.isArray(dataNormalized[key])) {
+
+      if (Array.isArray(dataNormalized[key])) {
         schema[key] = resolveSchema({}, dataNormalized[key], options);
       } else if (type === "object") {
         schema[key] = resolveSchema(schema[key] || {}, dataNormalized[key], options);

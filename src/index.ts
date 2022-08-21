@@ -1,10 +1,11 @@
-import { Lyra, PropertiesSchema, create, search, insert } from "@nearform/lyra";
-import fetcher from "./common/fetcher";
+import { Lyra, PropertiesSchema, create, insert } from "@nearform/lyra";
+import fetcher, { FetchOptions } from "./common/fetcher";
 import { resolveSchema } from "./common/schema";
 
-export async function impact<T extends PropertiesSchema> (url: string): Promise<Lyra<T>> {
+export async function impact<T extends PropertiesSchema>(url: string, options?: FetchOptions): Promise<Lyra<T>> {
   const data = await fetcher(url, {
     method: "GET",
+    ...options,
   });
 
   const schema = resolveSchema({}, data);

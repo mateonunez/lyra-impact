@@ -1,29 +1,28 @@
 export type FetchOptions = {
-  method?: "GET" | "POST" | "PUT" | "DELETE";
-  headers?: {[key: string]: string};
-  selector?: (...args: any[]) => any;
+  method?: "GET";
+  headers?: { [key: string]: string };
   property?: string;
-}
+};
 
-export default async function fetcher (url: string, options: FetchOptions): Promise<[]> {
-  const { method = "GET", headers = {}, selector, property = null } = options;
+export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
+  const { method = "GET", headers = {}, property = null } = options;
 
   const response = await fetch(url, {
     method,
     headers: {
       Accept: "application/json",
       ...headers,
-    }
-  })
+    },
+  });
 
   if (!response.ok) {
-    throw new Error(response.statusText)
+    throw new Error("The request failed: " + response.status);
   }
 
-  let data = await response.json()
+  let data = await response.json();
 
   if (property) {
-    data = data[property]
+    data = data[property];
   }
 
   return data;
