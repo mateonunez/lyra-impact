@@ -8,14 +8,17 @@ Create a [Lyra](https://github.com/nearform/lyra) instance from an API response
 ## Usage
 
 ```js
-(async () => {
-  impact("https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json").then((lyra) => {
-    const { hits } = search(lyra, {
-      term: "pikachu"
-    })
+import { search } from "@nearform/lyra"
+import { impact } from "@mateonunez/lyra-impact"
 
-    console.log(hits)
-  });
+(async () => {
+  const lyra = await impact("https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json")
+
+  const { hits } = search(lyra, {
+    term: "pikachu"
+  })
+
+  console.log(hits)
 })();
 ```
 
