@@ -1,6 +1,6 @@
-# Import JSON
+# 🌍☄️️ Impact 
 
-Convert a JSON file into a Lyra instance.
+Convert an API into a [Lyra](https://github.com/nearform/lyra) instance.
 
 ## Usage
 
