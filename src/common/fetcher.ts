@@ -1,7 +1,7 @@
 export type FetchOptions = RequestInit & { property?: string }
 
 export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
-  const { property, method = "GET" } = options
+  const { method = "GET", property = null } = options
   delete options.property
 
   const response = await fetch(url, {
