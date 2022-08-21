@@ -2,6 +2,9 @@
 
 Convert an API into a [Lyra](https://github.com/nearform/lyra) instance.
 
+[![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
+
+
 ## Usage
 
 ```js
