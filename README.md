@@ -1,6 +1,6 @@
 # 🌍☄️️ Impact 
 
-Convert an API into a [Lyra](https://github.com/nearform/lyra) instance.
+Create a [Lyra](https://github.com/nearform/lyra) instance from an API response
 
 [![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
 
