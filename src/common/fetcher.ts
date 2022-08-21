@@ -1,14 +1,12 @@
 export type FetchOptions = RequestInit & { property?: string }
 
 export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
-  const { method = "GET", headers = {}, property = null } = options
+  const { property, method = "GET" } = options
+  delete options.property
 
   const response = await fetch(url, {
     method,
-    headers: {
-      Accept: "application/json",
-      ...headers,
-    },
+    ...options,
   })
 
   if (!response.ok) {
