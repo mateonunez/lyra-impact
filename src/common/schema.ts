@@ -1,40 +1,40 @@
 export type ResolveSchemaOptions = {
-  attribute?: string;
-};
+  attribute?: string
+}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function resolveSchema(schema: any, data: any, options?: ResolveSchemaOptions): any {
-  let dataNormalized = data;
+  let dataNormalized = data
 
   if (options && options.attribute && data[options.attribute]) {
-    dataNormalized = data[options.attribute];
+    dataNormalized = data[options.attribute]
   }
 
   if (!dataNormalized) {
-    return schema;
+    return schema
   }
 
   if (Array.isArray(dataNormalized)) {
-    resolveSchema(schema, dataNormalized[0], options);
+    resolveSchema(schema, dataNormalized[0], options)
   } else {
     for (const key in dataNormalized) {
-      const type = typeof dataNormalized[key];
+      const type = typeof dataNormalized[key]
 
       if (Array.isArray(dataNormalized[key])) {
-        schema[key] = resolveSchema({}, dataNormalized[key], options);
+        schema[key] = resolveSchema({}, dataNormalized[key], options)
       } else if (type === "object") {
-        schema[key] = resolveSchema(schema[key] || {}, dataNormalized[key], options);
+        schema[key] = resolveSchema(schema[key] || {}, dataNormalized[key], options)
       } else if (type === "string") {
-        schema[key] = "string";
+        schema[key] = "string"
       } else if (type === "number") {
-        schema[key] = "number";
+        schema[key] = "number"
       } else if (type === "boolean") {
-        schema[key] = "boolean";
+        schema[key] = "boolean"
       } else {
-        throw new Error(`Unsupported type: ${type}`);
+        throw new Error(`Unsupported type: ${type}`)
       }
     }
   }
 
-  return schema;
+  return schema
 }

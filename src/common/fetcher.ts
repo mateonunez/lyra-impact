@@ -1,11 +1,11 @@
 export type FetchOptions = {
-  method?: "GET";
-  headers?: { [key: string]: string };
-  property?: string;
-};
+  method?: "GET"
+  headers?: { [key: string]: string }
+  property?: string
+}
 
 export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
-  const { method = "GET", headers = {}, property = null } = options;
+  const { method = "GET", headers = {}, property = null } = options
 
   const response = await fetch(url, {
     method,
@@ -13,17 +13,17 @@ export default async function fetcher(url: string, options: FetchOptions): Promi
       Accept: "application/json",
       ...headers,
     },
-  });
+  })
 
   if (!response.ok) {
-    throw new Error("The request failed: " + response.status);
+    throw new Error("The request failed: " + response.status)
   }
 
-  let data = await response.json();
+  let data = await response.json()
 
   if (property) {
-    data = data[property];
+    data = data[property]
   }
 
-  return data;
+  return data
 }
