@@ -12,7 +12,9 @@ import { search } from "@nearform/lyra"
 import { impact } from "@mateonunez/lyra-impact"
 
 (async () => {
-  const lyra = await impact("https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json")
+  const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+    property: "pokemon"
+  })
 
   const { hits } = search(lyra, {
     term: "pikachu"
@@ -27,22 +29,22 @@ import { impact } from "@mateonunez/lyra-impact"
 [
   {
     id: 25,
-    name: {
-      english: 'Pikachu',
-      japanese: 'ピカチュウ',
-      chinese: '皮卡丘',
-      french: 'Pikachu'
-    },
+    num: '025',
+    name: 'Pikachu',
+    img: 'http://www.serebii.net/pokemongo/pokemon/025.png',
     type: [ 'Electric' ],
-    base: {
-      HP: 35,
-      Attack: 55,
-      Defense: 40,
-      'Sp. Attack': 50,
-      'Sp. Defense': 50,
-      Speed: 90
-    }
-  },
+    height: '0.41 m',
+    weight: '6.0 kg',
+    candy: 'Pikachu Candy',
+    candy_count: 50,
+    egg: '2 km',
+    spawn_chance: 0.21,
+    avg_spawns: 21,
+    spawn_time: '04:00',
+    multipliers: [ 2.34 ],
+    weaknesses: [ 'Ground' ],
+    next_evolution: [ { num: '026', name: 'Raichu' } ]
+  }
 ];
 
 ```

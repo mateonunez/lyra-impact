@@ -1,29 +1,24 @@
-export type ResolveSchemaOptions = {
-  attribute?: string
-}
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function resolveSchema(schema: any, data: any, options?: ResolveSchemaOptions): any {
-  let dataNormalized = data
+export function resolveSchema(schema: any, data: any): any {
+  if (Array.isArray(data)) {
+    // finds the biggest element in the data so we can build our schema from that
+    const sizes = data.map(entry => Object.values(entry).length)
+    const max = Math.max(...sizes)
+    const idx = sizes.indexOf(max)
 
-  if (options && options.attribute && data[options.attribute]) {
-    dataNormalized = data[options.attribute]
-  }
-
-  if (!dataNormalized) {
-    return schema
-  }
-
-  if (Array.isArray(dataNormalized)) {
-    resolveSchema(schema, dataNormalized[0], options)
+    resolveSchema(schema, data[idx])
   } else {
-    for (const key in dataNormalized) {
-      const type = typeof dataNormalized[key]
+    for (const key in data) {
+      const type = typeof data[key]
 
-      if (Array.isArray(dataNormalized[key])) {
-        schema[key] = resolveSchema({}, dataNormalized[key], options)
+      if (Array.isArray(data[key])) {
+        if (!schema[key]) {
+          schema[key] = resolveSchema([], data[key])
+        }
       } else if (type === "object") {
-        schema[key] = resolveSchema(schema[key] || {}, dataNormalized[key], options)
+        if (!schema[key]) {
+          schema[key] = resolveSchema({}, data[key])
+        }
       } else if (type === "string") {
         schema[key] = "string"
       } else if (type === "number") {
