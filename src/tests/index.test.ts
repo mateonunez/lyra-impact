@@ -3,19 +3,34 @@ import t from "tap"
 import { impact } from ".."
 
 t.test("should retrieve the data and create a Lyra instance", t => {
-  t.plan(2)
+  t.plan(3)
 
-  t.test("should retrieve the data and create a Lyra instance", t => {
+  t.test("should retrieve the data and create a Lyra instance", async t => {
     t.plan(1)
-    impact("https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json").then(lyra => {
-      const result = search(lyra, {
-        term: "pikachu",
-      })
 
-      console.log({ hits: result.count })
-
-      t.equal(result.count, 1)
+    const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+      property: "pokemon"
     })
+    const result = search(lyra, {
+      term: "pikachu",
+    })
+
+    t.equal(result.count, 1)
+  })
+
+  t.test("should results count match with hits length", async t => {
+    t.plan(1)
+
+    const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+      property: "pokemon",
+    })
+
+    const results = search(lyra, {
+      term: "pikachu",
+      properties: ["name"]
+    })
+
+    t.equal(results.count, results.hits.length)
   })
 
   t.test("should retrieve the data using a custom property", t => {
