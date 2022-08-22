@@ -22,7 +22,8 @@ pnpm add @mateonunez/lyra-impact
 
 See the full list of examples: [mateonunez/lyra-impact-examples](https://github.com/mateonunez/lyra-impact-examples)
 
-- [with-vue](https://lyra-impact-examples-with-vue.vercel.app/)
+- [React](https://lyra-impact-examples-with-react.vercel.app/)
+- [Vue](https://lyra-impact-examples-with-vue.vercel.app/)
 
 ## Usage
 
