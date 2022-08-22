@@ -77,7 +77,7 @@ import impact from "@mateonunez/lyra-impact"
 
 - `url: string`
 - `searchOptions: SearchOptions`
-- `fetchOptions: ImpactOptions`
+- `impactOptions: ImpactOptions`
 
 ```js
 import { collision } from "@mateonunez/lyra-impact"

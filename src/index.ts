@@ -30,8 +30,8 @@ export default async function impact<T extends PropertiesSchema>(url: string, op
   return lyra as unknown as Lyra<T>
 }
 
-export async function collision<T extends PropertiesSchema>(url: string, searchOptions: SearchParams<T>, options?: ImpactOptions): Promise<SearchResult<T>> {
-  const lyra = (await impact(url, options)) as Lyra<T>
+export async function collision<T extends PropertiesSchema>(url: string, searchOptions: SearchParams<T>, impactOptions?: ImpactOptions): Promise<SearchResult<T>> {
+  const lyra = (await impact(url, impactOptions)) as Lyra<T>
 
   const results = search(lyra, {
     ...searchOptions
