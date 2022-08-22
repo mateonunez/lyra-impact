@@ -17,7 +17,8 @@ import { impact } from "@mateonunez/lyra-impact"
   })
 
   const { hits } = search(lyra, {
-    term: "pikachu"
+    term: "pikachu",
+    properties: ["name"]
   })
 
   console.log(hits)
