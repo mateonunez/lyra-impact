@@ -1,7 +1,7 @@
-import {create, insert} from "@nearform/lyra"
+import {create, insert, search, SearchResult} from "@nearform/lyra"
 import fetcher from "./common/fetcher"
 import {resolveSchema} from "./common/schema"
-import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration} from "@nearform/lyra"
+import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@nearform/lyra"
 import type {FetchOptions} from "./common/fetcher"
 
 export type ImpactOptions = {
@@ -28,4 +28,14 @@ export default async function impact<T extends PropertiesSchema>(url: string, op
   }
 
   return lyra as unknown as Lyra<T>
+}
+
+export async function collision<T extends PropertiesSchema>(url: string, searchOptions: SearchParams<T>, options?: ImpactOptions): Promise<SearchResult<T>> {
+  const lyra = (await impact(url, options)) as Lyra<T>
+
+  const results = search(lyra, {
+    ...searchOptions
+  })
+
+  return results as unknown as SearchResult<T>
 }

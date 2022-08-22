@@ -71,6 +71,55 @@ import impact from "@mateonunez/lyra-impact"
 
 ```
 
+### Collision
+
+`collision` method allows you to fetch and search in the API results a **term**.
+
+- `url: string`
+- `searchOptions: SearchOptions`
+- `fetchOptions: ImpactOptions`
+
+```js
+import { collision } from "@mateonunez/lyra-impact"
+
+(async () => {
+  const { hits } = await collision("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+      term: "pikachu",
+      properties: ["name"]
+    }, {
+      property: "pokemon"
+    }
+  )
+
+  console.log(hits)
+})();
+```
+
+**Result**
+```js
+[
+  {
+    id: 25,
+    num: '025',
+    name: 'Pikachu',
+    img: 'http://www.serebii.net/pokemongo/pokemon/025.png',
+    type: [ 'Electric' ],
+    height: '0.41 m',
+    weight: '6.0 kg',
+    candy: 'Pikachu Candy',
+    candy_count: 50,
+    egg: '2 km',
+    spawn_chance: 0.21,
+    avg_spawns: 21,
+    spawn_time: '04:00',
+    multipliers: [ 2.34 ],
+    weaknesses: [ 'Ground' ],
+    next_evolution: [ { num: '026', name: 'Raichu' } ]
+  }
+];
+
+```
+
 # License
 
 [MIT](/LICENSE)
