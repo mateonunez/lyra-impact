@@ -4,6 +4,25 @@ Create a [Lyra](https://github.com/nearform/lyra) instance from an API response
 
 [![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
 
+## Installation
+
+You can install Lyra using `npm`, `yarn`, `pnpm`:
+
+```sh
+npm i @mateonunez/lyra-impact
+```
+```sh
+yarn add @mateonunez/lyra-impact
+```
+```sh
+pnpm add @mateonunez/lyra-impact
+```
+
+## Examples
+
+See the full list of examples: [mateonunez/lyra-impact-examples](https://github.com/mateonunez/lyra-impact-examples)
+
+- [with-vue](https://lyra-impact-examples-with-vue.vercel.app/)
 
 ## Usage
 
