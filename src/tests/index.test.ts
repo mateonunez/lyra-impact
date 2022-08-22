@@ -1,6 +1,6 @@
 import {search} from "@nearform/lyra"
 import t from "tap"
-import {impact} from ".."
+import impact from ".."
 
 t.test("should retrieve the data and create a Lyra instance", t => {
   t.plan(3)

@@ -11,7 +11,7 @@ export type ImpactOptions = {
   property?: string
 }
 
-export async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
+export default async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
   const fetcherOptions = {
     method: "GET",
     property: options?.property,
