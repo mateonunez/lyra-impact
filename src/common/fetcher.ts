@@ -1,3 +1,5 @@
+import p from 'phin'
+
 export type FetchOptions = RequestInit & {property?: string}
 
 export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
@@ -5,18 +7,22 @@ export default async function fetcher(url: string, options: FetchOptions): Promi
 
   if (options.property) delete options.property
 
-  const response = await fetch(url, {
+  const response = await p({
+    url,
     method,
     ...options
   })
 
-  if (!response.ok) {
-    throw new Error("The request failed: " + response.status)
+  console.log(response.statusCode)
+
+  if (!response.statusCode || response.statusCode < 200 || response.statusCode > 299) {
+    throw new Error("The request failed: " + response.statusCode)
   }
 
-  let data = await response.json()
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  let data = JSON.parse(response.body as any)
 
-  if (property) {
+  if (property && data) {
     data = data[property]
   }
 
