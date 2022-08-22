@@ -1,4 +1,4 @@
-import p from 'phin'
+import p from "phin"
 
 export type FetchOptions = RequestInit & {property?: string}
 
@@ -12,8 +12,6 @@ export default async function fetcher(url: string, options: FetchOptions): Promi
     method,
     ...options
   })
-
-  console.log(response.statusCode)
 
   if (!response.statusCode || response.statusCode < 200 || response.statusCode > 299) {
     throw new Error("The request failed: " + response.statusCode)
