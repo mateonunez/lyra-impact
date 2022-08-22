@@ -1,6 +1,8 @@
 import {search} from "@nearform/lyra"
 import t from "tap"
-import impact from ".."
+import impact, {collision} from ".."
+
+const endpoint = "https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json"
 
 t.test("should retrieve the data and create a Lyra instance", t => {
   t.plan(3)
@@ -8,7 +10,7 @@ t.test("should retrieve the data and create a Lyra instance", t => {
   t.test("should retrieve the data and create a Lyra instance", async t => {
     t.plan(1)
 
-    const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+    const lyra = await impact(endpoint, {
       property: "pokemon"
     })
     const result = search(lyra, {
@@ -21,7 +23,7 @@ t.test("should retrieve the data and create a Lyra instance", t => {
   t.test("should results count match with hits length", async t => {
     t.plan(1)
 
-    const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+    const lyra = await impact(endpoint, {
       property: "pokemon"
     })
 
@@ -46,6 +48,24 @@ t.test("should retrieve the data and create a Lyra instance", t => {
       t.equal(result.count, 4)
     })
   })
+})
+
+t.test("should collision search", async t => {
+  t.plan(2)
+
+  const {hits} = await collision(
+    endpoint,
+    {
+      term: "pikachu",
+      properties: ["name"]
+    },
+    {
+      property: "pokemon"
+    }
+  )
+
+  t.equal(hits.length, 1)
+  t.equal(hits[0].name, "Pikachu")
 })
 
 t.test("should resolve the schema", t => {
