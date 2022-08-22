@@ -1,6 +1,6 @@
-import { search } from "@nearform/lyra"
+import {search} from "@nearform/lyra"
 import t from "tap"
-import { impact } from ".."
+import {impact} from ".."
 
 t.test("should retrieve the data and create a Lyra instance", t => {
   t.plan(3)
@@ -12,7 +12,7 @@ t.test("should retrieve the data and create a Lyra instance", t => {
       property: "pokemon"
     })
     const result = search(lyra, {
-      term: "pikachu",
+      term: "pikachu"
     })
 
     t.equal(result.count, 1)
@@ -22,7 +22,7 @@ t.test("should retrieve the data and create a Lyra instance", t => {
     t.plan(1)
 
     const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
-      property: "pokemon",
+      property: "pokemon"
     })
 
     const results = search(lyra, {
@@ -37,10 +37,10 @@ t.test("should retrieve the data and create a Lyra instance", t => {
     t.plan(1)
     // the data is in the "results" property {info: {...}, results: [{...}]}
     impact("https://rickandmortyapi.com/api/character/", {
-      property: "results",
+      property: "results"
     }).then(lyra => {
       const result = search(lyra, {
-        term: "rick",
+        term: "rick"
       })
 
       t.equal(result.count, 4)
@@ -61,14 +61,14 @@ t.test("should resolve the schema", t => {
           english: "string",
           japanese: "string",
           chinese: "string",
-          french: "string",
+          french: "string"
         },
         type: {
           "0": "string",
           "1": "string",
           "2": "string",
           "3": "string",
-          "4": "string",
+          "4": "string"
         },
         base: {
           HP: "number",
@@ -76,8 +76,8 @@ t.test("should resolve the schema", t => {
           Defense: "number",
           "Sp. Attack": "number",
           "Sp. Defense": "number",
-          Speed: "number",
-        },
+          Speed: "number"
+        }
       }
 
       t.match(lyra.schema, expectedSchema)
