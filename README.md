@@ -73,7 +73,7 @@ import impact from "@mateonunez/lyra-impact"
 
 ### Collision
 
-`collision` method allows you to fetch and search in the API results a **term**.
+`collision` method allows you to fetch and search a **term** in the API results.
 
 - `url: string`
 - `searchOptions: SearchOptions`
