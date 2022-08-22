@@ -1,6 +1,6 @@
 # 🌍☄️️ Impact 
 
-Create a [Lyra](https://github.com/nearform/lyra) instance from an API response
+Create a [Lyra](https://github.com/nearform/lyra) database from an API
 
 [![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
 
@@ -29,10 +29,11 @@ See the full list of examples: [mateonunez/lyra-impact-examples](https://github.
 
 ```js
 import { search } from "@nearform/lyra"
-import { impact } from "@mateonunez/lyra-impact"
+import impact from "@mateonunez/lyra-impact"
 
 (async () => {
-  const lyra = await impact("https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json", {
+  const endpoint = "https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json"
+  const lyra = await impact(endpoint, {
     property: "pokemon"
   })
 
