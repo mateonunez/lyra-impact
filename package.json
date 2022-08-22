@@ -1,6 +1,6 @@
 {
   "name": "@mateonunez/lyra-impact",
-  "version": "0.0.0-alpha.0",
+  "version": "0.0.0-alpha.1",
   "description": "Create a Lyra instance from an API response",
   "main": "./dist/node/cjs/node-bun/index.js",
   "module": "./dist/node/esm/node-bun/index.js",
@@ -9,7 +9,6 @@
     "dist"
   ],
   "scripts": {
-    "changelog": "auto-changelog -p",
     "format": "prettier --write \"src/**/*.{ts,js}\"",
     "lint": "pnpm run format && eslint . --ext .js,.ts",
     "prepare": "husky install",
@@ -30,7 +29,7 @@
     "name": "Mateo Nunez",
     "url": "https://github.com/mateonunez"
   },
-  "license": "Apache-2.0",
+  "license": "MIT",
   "lint-staged": {
     "*": "pnpm lint"
   },
@@ -47,12 +46,12 @@
     "@types/tap": "^15.0.7",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
     "@typescript-eslint/parser": "^5.33.1",
-    "auto-changelog": "^2.4.0",
     "c8": "^7.12.0",
     "esbuild": "^0.15.5",
     "eslint": "^8.22.0",
     "husky": "^8.0.1",
     "prettier": "^2.7.1",
+    "rimraf": "^3.0.2",
     "tap": "^16.3.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.7.4"
