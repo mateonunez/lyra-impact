@@ -50,7 +50,6 @@ import impact from "@mateonunez/lyra-impact"
 ```js
 [
   {
-    id: 25,
     num: '025',
     name: 'Pikachu',
     img: 'http://www.serebii.net/pokemongo/pokemon/025.png',
@@ -99,7 +98,6 @@ import { collision } from "@mateonunez/lyra-impact"
 ```js
 [
   {
-    id: 25,
     num: '025',
     name: 'Pikachu',
     img: 'http://www.serebii.net/pokemongo/pokemon/025.png',
