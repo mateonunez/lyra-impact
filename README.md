@@ -28,7 +28,7 @@ See the full list of examples: [mateonunez/lyra-impact-examples](https://github.
 ## Usage
 
 ```js
-import { search } from "@nearform/lyra"
+import { search } from "@lyrasearch/lyra"
 import impact from "@mateonunez/lyra-impact"
 
 (async () => {

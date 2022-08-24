@@ -1,7 +1,7 @@
-import {create, insert, search, SearchResult} from "@nearform/lyra"
+import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
 import fetcher from "./common/fetcher"
 import {resolveSchema} from "./common/schema"
-import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@nearform/lyra"
+import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
 import type {FetchOptions} from "./common/fetcher"
 
 export type ImpactOptions = {
@@ -17,13 +17,17 @@ export default async function impact<T extends PropertiesSchema>(url: string, op
     property: options?.property,
     ...options?.fetch
   }
-  const data = await fetcher(url, {...fetcherOptions})
+  const data = (await fetcher(url, {...fetcherOptions})) as any
 
   const schema = resolveSchema({}, data)
   const lyraOptions = {...options?.lyra}
   const lyra = create({schema, ...lyraOptions})
 
   for (const entry of data) {
+    if (entry?.id) {
+      delete entry.id
+    }
+
     insert(lyra, entry)
   }
 
