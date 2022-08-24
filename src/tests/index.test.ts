@@ -1,8 +1,8 @@
-import {search} from "@nearform/lyra"
+import {search} from "@lyrasearch/lyra"
 import t from "tap"
 import impact, {collision} from ".."
 
-const endpoint = "https://raw.githubusercontent.com/nearform/lyra/main/packages/examples/with-react/public/pokedex.json"
+const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
 
 t.test("should retrieve the data and create a Lyra instance", t => {
   t.plan(3)
@@ -76,7 +76,6 @@ t.test("should resolve the schema", t => {
 
     impact("https://raw.githubusercontent.com/fanzeyi/pokemon.json/master/pokedex.json").then(lyra => {
       const expectedSchema = {
-        id: "number",
         name: {
           english: "string",
           japanese: "string",
