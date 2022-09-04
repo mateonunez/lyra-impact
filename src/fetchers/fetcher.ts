@@ -1,9 +1,10 @@
 import p from "phin"
+import {parseData} from "../utils"
 
 export type FetchOptions = RequestInit & {property?: string}
 
 export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
-  const {method = "GET", property = null} = options
+  const {method = "GET", property} = options
 
   if (options.property) delete options.property
 
@@ -13,16 +14,14 @@ export default async function fetcher(url: string, options: FetchOptions): Promi
     ...options
   })
 
+  const contentType = response?.headers?.["content-type"]?.split(";")[0] || "application/json"
+
   if (!response.statusCode || response.statusCode < 200 || response.statusCode > 299) {
     throw new Error("The request failed: " + response.statusCode)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let data = JSON.parse(response.body as any)
-
-  if (property && data) {
-    data = data[property]
-  }
+  const data = parseData(response.body, contentType, property)
 
   return data
 }

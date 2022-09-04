@@ -104,6 +104,14 @@ t.test("should resolve the schema", t => {
   })
 })
 
+// t.test("should resolve the schema from a CSV file", t => {
+//   t.plan(1)
+
+//   impact("https://people.sc.fsu.edu/~jburkardt/data/csv/cities.csv").then(lyra => {
+
+//   }))
+// })
+
 t.test("errors", t => {
   t.plan(1)
 

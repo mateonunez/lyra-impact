@@ -6,7 +6,7 @@ export function resolveSchema(schema: any, data: any): any {
     const max = Math.max(...sizes)
     const idx = sizes.indexOf(max)
 
-    resolveSchema(schema, data[idx])
+    return resolveSchema(schema, {...data[idx]})
   } else {
     for (const key in data) {
       const type = typeof data[key]
