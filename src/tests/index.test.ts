@@ -104,13 +104,17 @@ t.test("should resolve the schema", t => {
   })
 })
 
-// t.test("should resolve the schema from a CSV file", t => {
-//   t.plan(1)
+t.test("should resolve the schema from a CSV file", t => {
+  t.plan(1)
 
-//   impact("https://people.sc.fsu.edu/~jburkardt/data/csv/cities.csv").then(lyra => {
+  impact("https://people.sc.fsu.edu/~jburkardt/data/csv/cities.csv").then(lyra => {
+    const result = search(lyra, {
+      term: "diego"
+    })
 
-//   }))
-// })
+    t.equal(result.count, 1)
+  })
+})
 
 t.test("errors", t => {
   t.plan(1)
