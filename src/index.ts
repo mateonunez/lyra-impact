@@ -1,8 +1,8 @@
 import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
-import fetcher from "./common/fetcher"
-import {resolveSchema} from "./common/schema"
+import fetcher from "./fetchers/fetcher"
+import {resolveSchema} from "./schema/resolver"
 import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
-import type {FetchOptions} from "./common/fetcher"
+import type {FetchOptions} from "./fetchers/fetcher"
 
 export type ImpactOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
