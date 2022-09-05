@@ -4,8 +4,8 @@
     "src/"
   ],
   "compilerOptions": {
-    "target": "ES5",
-    "module": "ES2015",
+    "target": "ES2019",
+    "module": "CommonJS",
     "outDir": "./dist/browser"
   }
 }
