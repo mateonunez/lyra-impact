@@ -127,7 +127,7 @@ t.test("should resolve the schema from a CSV file", t => {
         term: "Colombia"
       })
 
-      t.ok(Object.hasOwn(result.hits[0], "name"))
+      t.ok(result.hits[0]["name"])
     })
   })
 })
