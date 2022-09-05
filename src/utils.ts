@@ -1,10 +1,18 @@
+export type ParseDataOptions = {
+  contentType?: string
+  extension?: string
+  property?: string
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function parseData(data: Buffer, contentType: string, property?: string): any {
+export function parseData(data: Buffer, options: ParseDataOptions): any {
+  const {contentType, extension, property} = options
+
   let dataParsed
 
-  if (contentType === "application/json") {
+  if (contentType === "application/json" || extension === "json") {
     dataParsed = parseJson(data, property)
-  } else if (contentType === "text/csv") {
+  } else if (contentType === "text/csv" || extension === "csv") {
     dataParsed = parseCsv(data)
   } else if (contentType === "text/plain") {
     dataParsed = parseJson(data, property)
