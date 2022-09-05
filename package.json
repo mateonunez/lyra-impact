@@ -16,8 +16,7 @@
     "build:node:cjs": "tsc --project tsconfig.node.cjs.json",
     "build:node:module": "tsc --project tsconfig.node.esm.json",
     "build:browser": "esbuild src/index.ts --bundle --outfile=dist/browser/index.js --minify --sourcemap --external:./node_modules/*",
-    "build": "rimraf ./dist && pnpm build:node:module && pnpm build:node:cjs && pnpm build:browser",
-    "just": "ts-node src/index.ts"
+    "build": "rimraf ./dist && pnpm build:node:module && pnpm build:node:cjs && pnpm build:browser"
   },
   "keywords": [
     "lyra",
