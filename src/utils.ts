@@ -5,35 +5,49 @@ export function parseData(data: Buffer, contentType: string, property?: string):
   if (contentType === "application/json") {
     dataParsed = parseJson(data, property)
   } else if (contentType === "text/csv") {
-    dataParsed = parseCsv(data, property)
+    dataParsed = parseCsv(data)
   } else if (contentType === "text/plain") {
     dataParsed = parseJson(data, property)
   } else {
     throw new Error(`Unsupported content type: ${contentType}`)
   }
 
-  return dataParsed
-
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   function parseJson(data: Buffer, property?: string): any {
     let dataParsed = JSON.parse(data.toString())
 
     if (property && dataParsed) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       dataParsed = (dataParsed as any)[property]
     }
-
 
     return dataParsed
   }
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  function parseCsv(data: Buffer, property?: string): any {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
+  function parseCsv(data: Buffer): any {
     const dataParsed = data
       .toString()
       .split("\n")
       .map(line => line.split(",").map(sanitizeString))
 
-    return dataParsed
+    const headers = dataParsed.shift()
+
+    // set the headers as key
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const dataParsedWithHeaders = dataParsed.map((line: any) => {
+      if(!headers) return line
+
+      return line.reduce((acc: any, value: any, index: number) => {
+        acc[headers[index]] = value
+        return acc
+      }, {})
+    })
+
+    return dataParsedWithHeaders
   }
+
+  return dataParsed
 }
 
 export function sanitizeString(str: string): string {
