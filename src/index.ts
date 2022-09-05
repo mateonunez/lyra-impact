@@ -17,6 +17,7 @@ export default async function impact<T extends PropertiesSchema>(url: string, op
     property: options?.property,
     ...options?.fetch
   }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = (await fetcher(url, {...fetcherOptions})) as any
 
   const schema = resolveSchema({}, data)

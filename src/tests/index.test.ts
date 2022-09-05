@@ -105,14 +105,30 @@ t.test("should resolve the schema", t => {
 })
 
 t.test("should resolve the schema from a CSV file", t => {
-  t.plan(1)
+  t.plan(2)
 
-  impact("https://people.sc.fsu.edu/~jburkardt/data/csv/cities.csv").then(lyra => {
-    const result = search(lyra, {
-      term: "diego"
+  t.test("should resolve with impact data", t => {
+    t.plan(1)
+
+    impact("https://cdn.wsform.com/wp-content/uploads/2018/09/country_full.csv").then(lyra => {
+      const result = search(lyra, {
+        term: "Colombia"
+      })
+
+      t.equal(result.count, 1)
     })
+  })
 
-    t.equal(result.count, 1)
+  t.test("should have the headers as properties", t => {
+    t.plan(1)
+
+    impact("https://cdn.wsform.com/wp-content/uploads/2018/09/country_full.csv").then(lyra => {
+      const result = search(lyra, {
+        term: "Colombia"
+      })
+
+      t.ok(Object.hasOwn(result.hits[0], "name"))
+    })
   })
 })
 
