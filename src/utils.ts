@@ -36,7 +36,7 @@ export function parseData(data: Buffer, contentType: string, property?: string):
     // set the headers as key
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const dataParsedWithHeaders = dataParsed.map((line: any) => {
-      if(!headers) return line
+      if (!headers) return line
 
       return line.reduce((acc: any, value: any, index: number) => {
         acc[headers[index]] = value
