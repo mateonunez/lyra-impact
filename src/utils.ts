@@ -63,3 +63,7 @@ export function sanitizeString(str: string): string {
   str = str.replace(/[^a-z0-9áéíóúñü \.,_-]/gim, "")
   return str.trim()
 }
+
+export function getMaxOfArray(array: any[]): number {
+  return array.reduce((max, v) => (max >= v ? max : v), -Infinity)
+}

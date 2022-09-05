@@ -1,9 +1,11 @@
+import {getMaxOfArray} from "../utils"
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function resolveSchema(schema: any, data: any): any {
   if (Array.isArray(data)) {
     // finds the biggest element in the data so we can build our schema from that
     const sizes = data.map(entry => Object.values(entry).length)
-    const max = Math.max(...sizes)
+    const max = getMaxOfArray(sizes)
     const idx = sizes.indexOf(max)
 
     return resolveSchema(schema, {...data[idx]})
