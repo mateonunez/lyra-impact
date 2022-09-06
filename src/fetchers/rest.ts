@@ -13,11 +13,13 @@ export default async function restFetcher(url: string, options: FetchOptions<Req
     ...options
   })
 
+  if (!response) throw new Error("No response")
+
   const contentType = response?.headers?.["content-type"]?.split(";")[0] || "application/json"
   const extension = url?.split(".").pop() || "json"
 
-  if (!response.statusCode || response.statusCode < 200 || response.statusCode > 299) {
-    throw new Error("The request failed: " + response.statusCode)
+  if (!response.statusCode || response?.statusCode > 299 || response?.statusCode < 200) {
+    throw new Error(`Error fetching data from ${url}: ${response.statusCode} ${response.statusMessage}`)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -139,7 +139,7 @@ t.test("errors", t => {
     t.plan(1)
 
     impact("https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json").catch(err => {
-      t.equal(err.message, "The request failed: 404")
+      t.equal(err.message, "Error fetching data from https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json: 404 Not Found")
     })
   })
 })
