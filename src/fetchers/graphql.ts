@@ -23,8 +23,16 @@ export default async function graphqlFetcher(url: string, options: FetchOptions<
   }
 
   const response = await p(optionsGql)
+
+  if (!response) throw new Error("No response")
+
   const contentType = response?.headers?.["content-type"]?.split(";")[0] || "application/json"
 
+  if (!response.statusCode || response?.statusCode > 299 || response?.statusCode < 200) {
+    throw new Error(`Error fetching data from ${url}: ${response.statusCode} ${response.statusMessage}`)
+  }
+
+  // data property is by default on GraphQL standard
   const {data: dataNotParsed} = JSON.parse(response.body.toString())
   const data = parseData(JSON.stringify(dataNotParsed), {
     contentType,
