@@ -132,6 +132,39 @@ t.test("should resolve the schema from a CSV file", t => {
   })
 })
 
+t.test("should resolve graphql data", t => {
+  t.plan(1)
+
+  t.test("should resolve with impact data", t => {
+    t.plan(1)
+
+    impact("https://rickandmortyapi.com/graphql", {
+      fetch: {
+        isGraphql: true,
+        query: `{
+          characters {
+            results {
+              type
+              status
+              species
+              name
+              id
+              gender
+            }
+          }
+        }`,
+        property: "characters.results"
+      }
+    }).then(lyra => {
+      const result = search(lyra, {
+        term: "rick"
+      })
+
+      t.equal(result.count, 4)
+    })
+  })
+})
+
 t.test("errors", t => {
   t.plan(1)
 
