@@ -1,5 +1,5 @@
 import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
-import fetcher, { GraphqlOptions } from "./fetchers"
+import fetcher, {GraphqlOptions} from "./fetchers"
 import {resolveSchema} from "./schema/resolver"
 import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
 import type {FetchOptions} from "./fetchers"
