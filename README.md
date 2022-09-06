@@ -1,6 +1,6 @@
 # 🌍☄️️ Impact 
 
-Create a [Lyra](https://github.com/nearform/lyra) database from an API
+Create a [Lyra](https://github.com/nearform/lyra) database from anywhere.
 
 [![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
 
