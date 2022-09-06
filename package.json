@@ -2,9 +2,9 @@
   "name": "@mateonunez/lyra-impact",
   "version": "0.0.1-beta.7",
   "description": "Create a Lyra database from an API",
-  "main": "./dist/node/cjs/index.js",
-  "module": "./dist/node/esm/index.js",
-  "types": "./dist/node/esm/index.d.ts",
+  "main": "./dist/cjs/index.js",
+  "module": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
   "files": [
     "dist"
   ],
