@@ -67,7 +67,40 @@ import { impact } from "@mateonunez/lyra-impact"
     next_evolution: [ { num: '026', name: 'Raichu' } ]
   }
 ];
+```
 
+### With GraphQL
+
+```js
+import { search } from "@lyrasearch/lyra"
+import { impact } from "@mateonunez/lyra-impact"
+
+(async () => {
+  const lyra = await impact("https://rickandmortyapi.com/graphql", {
+    fetch: {
+      isGraphql: true,
+      query: `{
+        characters {
+          results {
+            type
+            status
+            species
+            name
+            id
+            gender
+          }
+        }
+      }`,
+      property: "characters.results"
+    }
+  })
+
+  const { hits } = search(lyra, {
+    term: "Morty"
+  })
+
+  console.log(hits)
+})()
 ```
 
 ### Collision
