@@ -1,6 +1,6 @@
 import {search} from "@lyrasearch/lyra"
 import t from "tap"
-import impact, {collision} from ".."
+import {impact, collision} from ".."
 
 const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
 
