@@ -1,5 +1,6 @@
 import graphqlFetcher from "./graphql"
 import restFetcher from "./rest"
+import filesystemFetcher from "./filesystem"
 
 export type RestOptions = RequestInit
 
@@ -22,7 +23,8 @@ export default async function fetcher(url: string, {fetcher, property, ...rest}:
   } else if (fetcher === "graphql") {
     return graphqlFetcher(url, {fetcher, property, ...rest} as FetcherOptions<GraphqlOptions>)
   } else if (fetcher === "filesystem") {
-    throw new Error("Filesystem fetcher not implemen ted yet")
+    // in this case, url is path
+    return filesystemFetcher(url, {fetcher, property, ...rest} as FetcherOptions<FilesystemOptions>)
   } else {
     throw new Error(`Unsupported fetcher: ${fetcher}`)
   }
