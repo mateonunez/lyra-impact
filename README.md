@@ -34,7 +34,7 @@ import { impact } from "@mateonunez/lyra-impact"
 (async () => {
   const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
   const lyra = await impact(endpoint, {
-    property: "pokemon"
+    property: "pokemon" // you can use nested properties here, like: "pokemon.next_evolution"
   })
 
   const { hits } = search(lyra, {
