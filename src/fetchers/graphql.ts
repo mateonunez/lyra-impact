@@ -1,10 +1,8 @@
-//
 import p from "phin"
-
-import {FetchOptions, GraphqlOptions} from "."
 import {parseData} from "../utils"
+import type {FetcherOptions, GraphqlOptions} from "."
 
-export default async function graphqlFetcher(url: string, options: FetchOptions<GraphqlOptions & {property?: string}>): Promise<[]> {
+export default async function graphqlFetcher(url: string, options: FetcherOptions<GraphqlOptions>): Promise<[]> {
   const {query, property} = options
 
   if (options.property) delete options.property

@@ -1,8 +1,8 @@
 import p from "phin"
 import {parseData} from "../utils"
-import {FetchOptions} from "."
+import type {FetcherOptions, RestOptions} from "."
 
-export default async function restFetcher(url: string, options: FetchOptions<RequestInit & {property?: string}>): Promise<[]> {
+export default async function restFetcher(url: string, options: FetcherOptions<RestOptions>): Promise<[]> {
   const {method = "GET", property} = options
 
   if (options.property) delete options.property
@@ -23,7 +23,7 @@ export default async function restFetcher(url: string, options: FetchOptions<Req
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = parseData(response.body, {
+  const data = parseData(response.body as Buffer, {
     contentType,
     extension,
     property

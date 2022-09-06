@@ -140,7 +140,7 @@ t.test("should resolve graphql data", t => {
 
     impact("https://rickandmortyapi.com/graphql", {
       fetch: {
-        isGraphql: true,
+        fetcher: "graphql",
         query: `{
           characters {
             results {
