@@ -29,7 +29,7 @@ See the full list of examples: [mateonunez/lyra-impact-examples](https://github.
 
 ```js
 import { search } from "@lyrasearch/lyra"
-import impact from "@mateonunez/lyra-impact"
+import { impact } from "@mateonunez/lyra-impact"
 
 (async () => {
   const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
