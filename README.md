@@ -1,6 +1,6 @@
 # 🌍☄️️ Impact 
 
-Create a [Lyra](https://github.com/nearform/lyra) database from an API
+Create a [Lyra](https://github.com/nearform/lyra) database from anywhere.
 
 [![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
 
@@ -34,7 +34,7 @@ import { impact } from "@mateonunez/lyra-impact"
 (async () => {
   const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
   const lyra = await impact(endpoint, {
-    property: "pokemon"
+    property: "pokemon" // you can use nested properties here, like: "pokemon.next_evolution"
   })
 
   const { hits } = search(lyra, {
@@ -67,7 +67,40 @@ import { impact } from "@mateonunez/lyra-impact"
     next_evolution: [ { num: '026', name: 'Raichu' } ]
   }
 ];
+```
 
+### With GraphQL
+
+```js
+import { search } from "@lyrasearch/lyra"
+import { impact } from "@mateonunez/lyra-impact"
+
+(async () => {
+  const lyra = await impact("https://rickandmortyapi.com/graphql", {
+    fetch: {
+      isGraphql: true,
+      query: `{
+        characters {
+          results {
+            type
+            status
+            species
+            name
+            id
+            gender
+          }
+        }
+      }`,
+      property: "characters.results"
+    }
+  })
+
+  const { hits } = search(lyra, {
+    term: "Morty"
+  })
+
+  console.log(hits)
+})()
 ```
 
 ### Collision
