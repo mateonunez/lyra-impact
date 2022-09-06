@@ -6,7 +6,7 @@ import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchP
 export type ImpactOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lyra?: LyraConfiguration<any>
-  fetch?: FetcherOptions<RestOptions & GraphqlOptions & FilesystemOptions>
+  fetch?: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
   property?: string
 }
 
@@ -18,7 +18,7 @@ export async function impact<T extends PropertiesSchema>(url: string, options?: 
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = (await fetcher(url, {...fetcherOptions} as FetcherOptions<RestOptions & GraphqlOptions & FilesystemOptions>)) as any
+  const data = (await fetcher(url, {...fetcherOptions} as FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>)) as any
 
   const schema = resolveSchema({}, data)
   const lyraOptions = {...options?.lyra}

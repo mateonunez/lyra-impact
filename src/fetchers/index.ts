@@ -16,7 +16,7 @@ export type FetcherOptions<T> = {
   property?: string
 } & T
 
-export default async function fetcher(url: string, {fetcher, property, ...rest}: FetcherOptions<RestOptions & GraphqlOptions & FilesystemOptions>): Promise<[]> {
+export default async function fetcher(url: string, {fetcher, property, ...rest}: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>): Promise<[]> {
   if (fetcher === "rest") {
     return restFetcher(url, {fetcher, property, ...rest} as FetcherOptions<RestOptions>)
   } else if (fetcher === "graphql") {
