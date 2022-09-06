@@ -1,13 +1,13 @@
 import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
-import fetcher from "./fetchers/fetcher"
+import fetcher, { GraphqlOptions } from "./fetchers"
 import {resolveSchema} from "./schema/resolver"
 import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
-import type {FetchOptions} from "./fetchers/fetcher"
+import type {FetchOptions} from "./fetchers"
 
 export type ImpactOptions = {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   lyra?: LyraConfiguration<any>
-  fetch?: FetchOptions
+  fetch?: FetchOptions<RequestInit & GraphqlOptions & {property?: string}>
   property?: string
 }
 

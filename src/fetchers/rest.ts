@@ -1,9 +1,8 @@
 import p from "phin"
 import {parseData} from "../utils"
+import {FetchOptions} from "."
 
-export type FetchOptions = RequestInit & {property?: string}
-
-export default async function fetcher(url: string, options: FetchOptions): Promise<[]> {
+export default async function restFetcher(url: string, options: FetchOptions<RequestInit & {property?: string}>): Promise<[]> {
   const {method = "GET", property} = options
 
   if (options.property) delete options.property
