@@ -78,7 +78,7 @@ import { impact } from "@mateonunez/lyra-impact"
 (async () => {
   const lyra = await impact("https://rickandmortyapi.com/graphql", {
     fetch: {
-      isGraphql: true,
+      fetcher: "graphql",
       query: `{
         characters {
           results {

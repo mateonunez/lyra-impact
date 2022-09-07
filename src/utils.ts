@@ -6,7 +6,7 @@ export type ParseDataOptions = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseData(data: Buffer | string, options: ParseDataOptions): any {
-  const {contentType, extension, property} = options
+  const {contentType = "*", extension, property} = options
 
   let dataParsed
 
@@ -45,6 +45,7 @@ export function parseData(data: Buffer | string, options: ParseDataOptions): any
 
         dataParsed = dataParsedNested
       } else {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         dataParsed = (dataParsed as any)[property]
       }
     }
@@ -66,6 +67,7 @@ export function parseData(data: Buffer | string, options: ParseDataOptions): any
     const dataParsedWithHeaders = dataParsed.map((line: any) => {
       if (!headers) return line
 
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       return line.reduce((acc: any, value: any, index: number) => {
         acc[headers[index]] = value
         return acc
@@ -84,6 +86,9 @@ export function sanitizeString(str: string): string {
   return str.trim()
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getMaxOfArray(array: any[]): number {
   return array.reduce((max, v) => (max >= v ? max : v), -Infinity)
 }
+
+export const isServer = typeof window === "undefined"

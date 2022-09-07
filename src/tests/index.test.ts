@@ -140,7 +140,7 @@ t.test("should resolve graphql data", t => {
 
     impact("https://rickandmortyapi.com/graphql", {
       fetch: {
-        isGraphql: true,
+        fetcher: "graphql",
         query: `{
           characters {
             results {
@@ -161,6 +161,29 @@ t.test("should resolve graphql data", t => {
       })
 
       t.equal(result.count, 4)
+    })
+  })
+})
+
+t.test("should resolve filesystem data", t => {
+  t.plan(1)
+
+  t.test("should resolve with impact data", t => {
+    t.plan(1)
+
+    // the path shoul be relative to the project root
+    impact("./package.json", {
+      fetch: {
+        fetcher: "filesystem"
+      }
+    }).then(lyra => {
+      const result = search(lyra, {
+        term: "mateonunez"
+      })
+
+      console.log({result})
+
+      t.equal(result.count, 1)
     })
   })
 })
