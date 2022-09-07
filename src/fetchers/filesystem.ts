@@ -1,17 +1,20 @@
 import {FetcherOptions, FilesystemOptions} from "."
 import {isServer, parseData} from "../utils"
 import fs from "fs"
-import path from "path"
+import path, {join} from "path"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function filesystemFetcher(url: string, options: FetcherOptions<FilesystemOptions>): Promise<[]> {
   if (!isServer) throw new Error("Filesystem fetcher is not supported in browser")
 
-  if (!fs.existsSync(url)) throw new Error(`File not found: ${path}`)
+  console.log(process.cwd())
 
-  const extension = path.extname(url)
+  const filePath = path.resolve(join(process.cwd(), url))
+  if (!fs.existsSync(filePath)) throw new Error(`File not found: ${filePath}`)
+
+  const extension = path.extname(filePath)
   const contentType = extension === "json" ? "application/json" : extension === ".csv" ? "text/csv" : "text/plain" // TODO: manage better content types
-  const dataFile = fs.readFileSync(url, "utf8")
+  const dataFile = fs.readFileSync(filePath, "utf8")
 
   const data = parseData(dataFile, {
     contentType,
