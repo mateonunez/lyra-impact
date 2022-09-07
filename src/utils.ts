@@ -6,7 +6,7 @@ export type ParseDataOptions = {
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseData(data: Buffer | string, options: ParseDataOptions): any {
-  const {contentType = "text/plain", extension, property} = options
+  const {contentType = "*", extension, property} = options
 
   let dataParsed
 
