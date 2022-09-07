@@ -40,7 +40,7 @@
     }
   },
   "dependencies": {
-    "@lyrasearch/lyra": "^0.2.0",
+    "@lyrasearch/lyra": "0.2.0",
     "phin": "^3.6.1"
   },
   "devDependencies": {
