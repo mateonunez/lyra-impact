@@ -24,12 +24,16 @@ export async function impact<T extends PropertiesSchema>(url: string, options?: 
   const lyraOptions = {...options?.lyra}
   const lyra = create({schema, ...lyraOptions})
 
-  for (const entry of data) {
-    if (entry?.id) {
-      delete entry.id
-    }
+  if (Array.isArray(data)) {
+    for (const entry of data) {
+      if (entry?.id) delete entry.id
 
-    insert(lyra, entry)
+      insert(lyra, entry)
+    }
+  } else {
+    if (data?.id) delete data.id
+
+    insert(lyra, data)
   }
 
   return lyra as unknown as Lyra<T>
