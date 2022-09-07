@@ -7,8 +7,6 @@ import path, {join} from "path"
 export default async function filesystemFetcher(url: string, options: FetcherOptions<FilesystemOptions>): Promise<[]> {
   if (!isServer) throw new Error("Filesystem fetcher is not supported in browser")
 
-  console.log(process.cwd())
-
   const filePath = path.resolve(join(process.cwd(), url))
   if (!fs.existsSync(filePath)) throw new Error(`File not found: ${filePath}`)
 
