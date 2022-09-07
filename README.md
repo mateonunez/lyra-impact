@@ -103,6 +103,27 @@ import { impact } from "@mateonunez/lyra-impact"
 })()
 ```
 
+### With Filesystem
+
+```js
+import { search } from "@lyrasearch/lyra"
+import { impact } from "@mateonunez/lyra-impact"
+
+(async () => {
+  const lyra = await impact("./data/examples/characters.csv", {
+    fetch: {
+      fetcher: "filesystem"
+    }
+  })
+
+  const { hits } = search(lyra, {
+    term: "Morty"
+  })
+
+  console.log(hits)
+})()
+```
+
 ### Collision
 
 `collision` method allows you to fetch and search a **term** in the API results.
