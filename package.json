@@ -1,7 +1,7 @@
 {
   "name": "@mateonunez/lyra-impact",
   "version": "0.0.1",
-  "description": "Create a Lyra database from an API",
+  "description": "Create a Lyra database from anywhere",
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/esm/index.d.ts",
