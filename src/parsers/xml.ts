@@ -9,7 +9,9 @@ export default function parseXml(data: string, property?: string): any {
     data,
     {
       trim: true,
-      explicitArray: false
+      emptyTag: "",
+      explicitArray: false,
+      ignoreAttrs: true
     },
     (err: any, result) => {
       if (err) {
@@ -30,14 +32,18 @@ export default function parseXml(data: string, property?: string): any {
       let dataParsedNested: any = dataParsed
 
       while (i < propertyArray.length) {
-        dataParsedNested = dataParsedNested[propertyArray[i]]
-        i++
+        if (dataParsedNested[propertyArray[i]]) {
+          dataParsedNested = dataParsedNested[propertyArray[i]]
+          i++
+        }
       }
 
       dataParsed = dataParsedNested
     } else {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      dataParsed = (dataParsed as any)[property]
+      if (dataParsed[property]) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        dataParsed = (dataParsed as any)[property]
+      }
     }
   }
 
