@@ -1,5 +1,6 @@
 import {sanitizeString} from "../utils"
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export default function parseCsv(data: string): any {
   const dataParsed = data.split("\n").map(line => line.split(",").map(sanitizeString))
 

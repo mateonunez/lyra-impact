@@ -13,6 +13,7 @@ export default function parseXml(data: string, property?: string): any {
       explicitArray: false,
       ignoreAttrs: true
     },
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     (err: any, result) => {
       if (err) {
         throw new Error(err)
