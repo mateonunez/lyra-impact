@@ -69,6 +69,17 @@ import { impact } from "@mateonunez/lyra-impact"
 ];
 ```
 
+## Formats and fetchers
+
+Lyra Impact supports the following formats and fetchers:
+
+| Format    | Fetcher               | Description                                     |
+| --------- | --------------------- | ----------------------------------------------- |
+| `JSON`    | `fetch`, `filesystem` | Fetches a **JSON** response or file             |
+| `GraphQL` | `graphql`             | Fetches a **GraphQL** endpoint                  |
+| `CSV`     | `fetch`, `filesystem` | Fetches a **CSV** file from a URL or filesystem |
+| `XML`     | `fetch`, `filesystem` | Fetches a **XML** file from a URL or filesystem |
+
 ### With GraphQL
 
 ```js
