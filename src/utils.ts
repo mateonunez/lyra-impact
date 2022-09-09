@@ -24,10 +24,10 @@ export function parseData(data: Buffer | string, options: ParseDataOptions): any
     dataParsed = parseJson(content, property)
   } else if (contentType === "text/csv" || extension === "csv") {
     dataParsed = parseCsv(content)
+  } else if (contentType === "text/xml" || extension === "xml") {
+    dataParsed = parseXml(content, property)
   } else if (contentType === "text/plain") {
     dataParsed = parseJson(content, property)
-  } else if (contentType === "application/xml" || extension === "xml") {
-    dataParsed = parseXml(content, property)
   } else {
     throw new Error(`Unsupported content type: ${contentType}`)
   }
