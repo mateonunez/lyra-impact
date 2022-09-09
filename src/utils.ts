@@ -1,3 +1,7 @@
+import parseCsv from "./parsers/csv"
+import parseJson from "./parsers/json"
+import parseXml from "./parsers/xml"
+
 export type ParseDataOptions = {
   contentType?: string
   extension?: string
@@ -10,71 +14,22 @@ export function parseData(data: Buffer | string, options: ParseDataOptions): any
 
   let dataParsed
 
+  let content = data
+  if (typeof content === "string") {
+    content = Buffer.from(data)
+  }
+  content = content.toString()
+
   if (contentType === "application/json" || extension === "json") {
-    dataParsed = parseJson(data, property)
+    dataParsed = parseJson(content, property)
   } else if (contentType === "text/csv" || extension === "csv") {
-    dataParsed = parseCsv(data)
+    dataParsed = parseCsv(content)
   } else if (contentType === "text/plain") {
-    dataParsed = parseJson(data, property)
+    dataParsed = parseJson(content, property)
+  } else if (contentType === "application/xml" || extension === "xml") {
+    dataParsed = parseXml(content, property)
   } else {
     throw new Error(`Unsupported content type: ${contentType}`)
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  function parseJson(data: Buffer | string, property?: string): any {
-    if (typeof data === "string") {
-      data = Buffer.from(data)
-    }
-
-    let dataParsed = JSON.parse(data.toString())
-
-    if (property && dataParsed) {
-      const isNestedProperty = property.includes(".")
-      const propertyArray = property.split(".")
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      if (isNestedProperty) {
-        let i = 0
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        let dataParsedNested: any = dataParsed
-
-        while (i < propertyArray.length) {
-          dataParsedNested = dataParsedNested[propertyArray[i]]
-          i++
-        }
-
-        dataParsed = dataParsedNested
-      } else {
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        dataParsed = (dataParsed as any)[property]
-      }
-    }
-
-    return dataParsed
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-explicit-any
-  function parseCsv(data: Buffer | string): any {
-    const dataParsed = data
-      .toString()
-      .split("\n")
-      .map(line => line.split(",").map(sanitizeString))
-
-    const headers = dataParsed.shift()
-
-    // set the headers as key
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const dataParsedWithHeaders = dataParsed.map((line: any) => {
-      if (!headers) return line
-
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      return line.reduce((acc: any, value: any, index: number) => {
-        acc[headers[index]] = value
-        return acc
-      }, {})
-    })
-
-    return dataParsedWithHeaders
   }
 
   return dataParsed
