@@ -199,8 +199,6 @@ t.test("should resolve filesystem data", t => {
         term: "mateonunez"
       })
 
-      console.log({result})
-
       t.equal(result.count, 1)
     })
   })
