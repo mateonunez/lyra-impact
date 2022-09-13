@@ -15,8 +15,7 @@
     "test": "c8 -c ./src/tests/config/c8.json tap --rcfile=./src/tests/config/tap.yml --no-check-coverage ./src/tests/**/*.test.ts",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
-    "build:browser": "esbuild src/index.ts --bundle --outfile=dist/browser/index.js --minify --sourcemap --external:./node_modules/* --external:fs --external:path --platform=browser",
-    "build": "rimraf ./dist && npm run build:esm && npm run build:cjs && npm run build:browser"
+    "build": "rimraf ./dist && npm run build:esm && npm run build:cjs"
   },
   "keywords": [
     "lyra",
