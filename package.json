@@ -31,12 +31,7 @@
   },
   "license": "MIT",
   "lint-staged": {
-    "*": "pnpm lint"
-  },
-  "config": {
-    "commitizen": {
-      "path": "cz-conventional-changelog"
-    }
+    "*": "npm lint"
   },
   "dependencies": {
     "@lyrasearch/lyra": "^0.2.3",
