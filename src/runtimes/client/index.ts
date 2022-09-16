@@ -1,4 +1,4 @@
-import {create, insert, Lyra, PropertiesSchema} from "@lyrasearch/lyra"
+import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
 import {ImpactOptions} from "../.."
 import {FetcherOptions, GraphqlOptions, RestOptions} from "../../fetchers"
 import {resolveSchema} from "../../schema/resolver"
@@ -30,4 +30,14 @@ export async function impact<T extends PropertiesSchema>(url: string, options?: 
   }
 
   return lyra as unknown as Lyra<T>
+}
+
+export async function collision<T extends PropertiesSchema>(url: string, searchOptions: SearchParams<T>, impactOptions?: ImpactOptions): Promise<SearchResult<T>> {
+  const lyra = (await impact(url, impactOptions)) as Lyra<T>
+
+  const results = search(lyra, {
+    ...searchOptions
+  })
+
+  return results as unknown as SearchResult<T>
 }
