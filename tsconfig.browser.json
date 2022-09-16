@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "src/runtimes/browser/**/*"
+  ],
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "ESNext",
+    "outDir": "./dist/browser"
+  }
+}
