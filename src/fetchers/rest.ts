@@ -1,4 +1,4 @@
-import p from "phin"
+// import p from "phin"
 import {parseData} from "../utils"
 import type {FetcherOptions, RestOptions} from "."
 
@@ -7,23 +7,30 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
 
   if (options.property) delete options.property
 
-  const response = await p({
-    url,
+  // const response = await p({
+  //   url,
+  //   method,
+  //   ...options
+  // })
+
+  const response = await fetch(url, {
     method,
     ...options
   })
 
   if (!response) throw new Error("No response")
 
-  const contentType = response?.headers?.["content-type"]?.split(";")[0] || "application/json"
+  const contentType = response.headers.get("content-type") || "application/json"
   const extension = url?.split(".").pop() || "json"
 
-  if (!response.statusCode || response?.statusCode > 299 || response?.statusCode < 200) {
-    throw new Error(`Error fetching data from ${url}: ${response.statusCode} ${response.statusMessage}`)
+  if (!response.status || response?.status > 299 || response?.status < 200) {
+    throw new Error(`Error fetching data from ${url}: ${response.status} ${response.statusText}`)
   }
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = parseData(response.body as Buffer, {
+  const text = await response.text()
+  console.log({text})
+  const data = parseData(text, {
     contentType,
     extension,
     property
