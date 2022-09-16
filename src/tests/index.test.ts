@@ -132,23 +132,23 @@ t.test("should resolve the schema from a CSV file", t => {
   })
 })
 
-t.test("should resolve the scema from a XML file", t => {
-  t.plan(1)
+// t.test("should resolve the scema from a XML file", t => {
+//   t.plan(1)
 
-  t.test("should resolve with impact data", t => {
-    t.plan(1)
+//   t.test("should resolve with impact data", t => {
+//     t.plan(1)
 
-    impact("https://www.w3schools.com/xml/simple.xml", {
-      property: "breakfast_menu.food"
-    }).then(lyra => {
-      const result = search(lyra, {
-        term: "toast"
-      })
+//     impact("https://www.w3schools.com/xml/simple.xml", {
+//       property: "breakfast_menu.food"
+//     }).then(lyra => {
+//       const result = search(lyra, {
+//         term: "toast"
+//       })
 
-      t.equal(result.count, 2)
-    })
-  })
-})
+//       t.equal(result.count, 2)
+//     })
+//   })
+// })
 
 t.test("should resolve graphql data", t => {
   t.plan(1)
