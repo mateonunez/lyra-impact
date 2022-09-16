@@ -2,9 +2,9 @@
   "name": "@mateonunez/lyra-impact",
   "version": "0.0.4",
   "description": "Create a Lyra database from anywhere",
-  "main": "./dist/cjs/index.js",
-  "module": "./dist/esm/index.js",
-  "types": "./dist/esm/index.d.ts",
+  "main": "./dist/cjs/runtimes/server/index.js",
+  "module": "./dist/esm/runtimes/server/index.js",
+  "types": "./dist/esm/runtimes/server/index.d.ts",
   "files": [
     "dist"
   ],
