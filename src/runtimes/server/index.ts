@@ -1,14 +1,8 @@
-import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
-import fetcher, {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../fetchers"
+import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
+import fetcher from "../../fetchers"
 import {resolveSchema} from "../../schema/resolver"
-import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
-
-export type ImpactOptions = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  lyra?: LyraConfiguration<any>
-  fetch?: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
-  property?: string
-}
+import {ImpactOptions} from "../../types"
+import type {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../fetchers"
 
 export async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
   const fetcherOptions = {
