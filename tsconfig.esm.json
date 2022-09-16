@@ -1,7 +1,7 @@
 {
   "extends": "./tsconfig.json",
   "include": [
-    "src/"
+    "src/runtimes/server/**/*"
   ],
   "compilerOptions": {
     "target": "ESNext",
