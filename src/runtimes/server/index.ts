@@ -1,6 +1,6 @@
 import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
-import fetcher, {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "./fetchers"
-import {resolveSchema} from "./schema/resolver"
+import fetcher, {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../fetchers"
+import {resolveSchema} from "../../schema/resolver"
 import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
 
 export type ImpactOptions = {
@@ -15,10 +15,10 @@ export async function impact<T extends PropertiesSchema>(url: string, options?: 
     fetcher: "rest",
     property: options?.property,
     ...options?.fetch
-  }
+  } as FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = (await fetcher(url, {...fetcherOptions} as FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>)) as any
+  const data = (await fetcher(url, {...fetcherOptions})) as unknown as T
 
   const schema = resolveSchema({}, data)
   const lyraOptions = {...options?.lyra}
