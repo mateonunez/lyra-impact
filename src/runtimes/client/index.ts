@@ -1,7 +1,7 @@
 import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
-import {ImpactOptions} from "../.."
 import {FetcherOptions, GraphqlOptions, RestOptions} from "../../fetchers"
 import {resolveSchema} from "../../schema/resolver"
+import type {ImpactOptions} from "../../types"
 import fetcher from "./fetcher"
 
 export async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
