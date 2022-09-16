@@ -1,6 +1,6 @@
 import parseCsv from "./parsers/csv"
 import parseJson from "./parsers/json"
-import parseXml from "./parsers/xml"
+// import parseXml from "./parsers/xml"
 
 export type ParseDataOptions = {
   contentType?: string
@@ -9,25 +9,19 @@ export type ParseDataOptions = {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export function parseData(data: Buffer | string, options: ParseDataOptions): any {
+export function parseData(data: string, options: ParseDataOptions): any {
   const {contentType = "*", extension, property} = options
 
   let dataParsed
-
-  let content = data
-  if (typeof content === "string") {
-    content = Buffer.from(data)
-  }
-  content = content.toString()
-
   if (contentType === "application/json" || extension === "json") {
-    dataParsed = parseJson(content, property)
+    dataParsed = parseJson(data, property)
   } else if (contentType === "text/csv" || extension === "csv") {
-    dataParsed = parseCsv(content)
+    dataParsed = parseCsv(data)
   } else if (contentType === "text/xml" || extension === "xml") {
-    dataParsed = parseXml(content, property)
+    throw new Error("XML parsing is not implemented")
+    // dataParsed = parseXml(data, property)
   } else if (contentType === "text/plain") {
-    dataParsed = parseJson(content, property)
+    dataParsed = parseJson(data, property)
   } else {
     throw new Error(`Unsupported content type: ${contentType}`)
   }

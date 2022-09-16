@@ -1,24 +1,18 @@
-import {create, insert, search, SearchResult} from "@lyrasearch/lyra"
-import fetcher, {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "./fetchers"
-import {resolveSchema} from "./schema/resolver"
-import type {Lyra, PropertiesSchema, Configuration as LyraConfiguration, SearchParams} from "@lyrasearch/lyra"
-
-export type ImpactOptions = {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  lyra?: LyraConfiguration<any>
-  fetch?: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
-  property?: string
-}
+import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
+import fetcher from "../../fetchers"
+import {resolveSchema} from "../../schema/resolver"
+import {ImpactOptions} from "../../types"
+import type {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../fetchers"
 
 export async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
   const fetcherOptions = {
     fetcher: "rest",
     property: options?.property,
     ...options?.fetch
-  }
+  } as FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const data = (await fetcher(url, {...fetcherOptions} as FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>)) as any
+  const data = (await fetcher(url, {...fetcherOptions})) as unknown as T
 
   const schema = resolveSchema({}, data)
   const lyraOptions = {...options?.lyra}
