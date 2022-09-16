@@ -5,6 +5,7 @@
   "main": "./dist/cjs/runtimes/server/index.js",
   "module": "./dist/esm/runtimes/server/index.js",
   "types": "./dist/esm/runtimes/server/index.d.ts",
+  "browser": "./dist/client/index.js",
   "files": [
     "dist"
   ],
