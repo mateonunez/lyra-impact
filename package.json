@@ -15,7 +15,7 @@
     "test": "c8 -c ./src/tests/config/c8.json tap --rcfile=./src/tests/config/tap.yml --no-check-coverage ./src/tests/**/*.test.ts",
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
-    "build:browser": "esbuild --bundle --sourcemap --target=es2019 --format=esm --outfile=./dist/browser/index.js ./src/runtimes/browser/index.ts",
+    "build:browser": "esbuild --bundle --sourcemap --target=es2019 --format=esm --outfile=./dist/client/index.js ./src/runtimes/client/index.ts",
     "build": "rimraf ./dist && npm run build:esm && npm run build:cjs && npm run build:browser"
   },
   "keywords": [
