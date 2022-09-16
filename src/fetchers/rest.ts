@@ -13,7 +13,7 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
 
   if (!response) throw new Error("No response")
 
-  const contentType = response?.headers.get("content-type") || "application/json"
+  const contentType = response?.headers.get("content-type")?.split(";")[0] || "application/json"
   const extension = url?.split(".").pop() || "json"
 
   if (!response.status || response?.status > 299 || response?.status < 200) {
