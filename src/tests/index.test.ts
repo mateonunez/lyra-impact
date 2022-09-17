@@ -1,6 +1,6 @@
 import {search} from "@lyrasearch/lyra"
 import t from "tap"
-import {MISSING_GRAPHQL_QUERY, NO_RESPONSE_FROM_SERVER, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER} from "../errors"
+import {MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER} from "../errors"
 import {impact, collision} from "../runtimes/server"
 
 const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"

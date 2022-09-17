@@ -1,6 +1,6 @@
 import {UNSUPPORTED_FETCHER} from "../../errors"
-import graphqlFetcher from "../../fetchers/graphql"
-import restFetcher from "../../fetchers/rest"
+import graphqlFetcher from "../common/fetchers/graphql"
+import restFetcher from "../common/fetchers/rest"
 
 import type {FetcherOptions, GraphqlOptions, RestOptions} from "../../types"
 

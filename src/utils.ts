@@ -1,6 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {Configuration as LyraConfiguration, create, insert, Lyra, PropertiesSchema} from "@lyrasearch/lyra"
 import {UNSUPPORTED_CONTENT_TYPE} from "./errors"
-import parseCsv from "./parsers/csv"
-import parseJson from "./parsers/json"
+import parseCsv from "./runtimes/common/parsers/csv"
+import parseJson from "./runtimes/common/parsers/json"
+import {resolveSchema} from "./schema/resolver"
 
 export type ParseDataOptions = {
   contentType?: string
@@ -8,7 +11,6 @@ export type ParseDataOptions = {
   property?: string
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function parseData(data: string, options: ParseDataOptions): any {
   const {contentType = "*", extension, property} = options
 
@@ -34,9 +36,31 @@ export function sanitizeString(str: string): string {
   return str.trim()
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function getMaxOfArray(array: any[]): number {
   return array.reduce((max, v) => (max >= v ? max : v), -Infinity)
 }
 
 export const isServer = typeof window === "undefined"
+
+export function createLyra<T extends PropertiesSchema>(data: any, options?: LyraConfiguration<any>): Lyra<T> {
+  const schema = resolveSchema({}, data)
+  const lyra = create({
+    schema,
+    ...options
+  })
+  return lyra as unknown as Lyra<T>
+}
+
+export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: any): void {
+  if (Array.isArray(data)) {
+    for (const entry of data) {
+      if (entry?.id) delete entry.id
+
+      insert(lyra, entry)
+    }
+  } else {
+    if (data?.id) delete data.id
+
+    insert(lyra, data)
+  }
+}

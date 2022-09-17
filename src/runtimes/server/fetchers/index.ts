@@ -1,8 +1,8 @@
-import graphqlFetcher from "../../fetchers/graphql"
-import restFetcher from "../../fetchers/rest"
-import filesystemFetcher from "../../fetchers/filesystem"
-import {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../types"
-import {UNSUPPORTED_FETCHER} from "../../errors"
+import graphqlFetcher from "../../common/fetchers/graphql"
+import restFetcher from "../../common/fetchers/rest"
+import filesystemFetcher from "./filesystem"
+import {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../../types"
+import {UNSUPPORTED_FETCHER} from "../../../errors"
 
 export default async function fetcher(url: string, {fetcher, property, ...rest}: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>): Promise<[]> {
   if (fetcher === "rest") {

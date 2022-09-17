@@ -1,34 +1,16 @@
-import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
-import fetcher from "./fetcher"
-import {resolveSchema} from "../../schema/resolver"
-import {ImpactOptions} from "../../types"
-import type {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../types"
+import {Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
+import fetcher from "./fetchers"
+import {getFetcherOptions} from "../common/fetchers"
+import {createLyra, insertLyraData} from "../../utils"
+import type {ImpactOptions} from "../../types"
 
 export async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
-  const fetcherOptions = {
-    fetcher: "rest",
-    property: options?.property,
-    ...options?.fetch
-  } as FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
+  const fetcherOptions = getFetcherOptions("rest", options?.property, options?.fetch)
 
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const data = (await fetcher(url, {...fetcherOptions})) as unknown as T
+  const lyra = createLyra(data, options?.lyra)
 
-  const schema = resolveSchema({}, data)
-  const lyraOptions = {...options?.lyra}
-  const lyra = create({schema, ...lyraOptions})
-
-  if (Array.isArray(data)) {
-    for (const entry of data) {
-      if (entry?.id) delete entry.id
-
-      insert(lyra, entry)
-    }
-  } else {
-    if (data?.id) delete data.id
-
-    insert(lyra, data)
-  }
+  insertLyraData(lyra, data)
 
   return lyra as unknown as Lyra<T>
 }
