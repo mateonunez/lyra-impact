@@ -1,6 +1,6 @@
 import {UNSUPPORTED_CONTENT_TYPE} from "./errors"
-import parseCsv from "./parsers/csv"
-import parseJson from "./parsers/json"
+import parseCsv from "./runtimes/common/parsers/csv"
+import parseJson from "./runtimes/common/parsers/json"
 
 export type ParseDataOptions = {
   contentType?: string

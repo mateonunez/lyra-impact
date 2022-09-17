@@ -1,5 +1,5 @@
 import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
-import fetcher from "./fetcher"
+import fetcher from "./fetchers"
 import {resolveSchema} from "../../schema/resolver"
 import {ImpactOptions} from "../../types"
 import type {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../types"
