@@ -1,6 +1,6 @@
+import {UNSUPPORTED_CONTENT_TYPE} from "./errors"
 import parseCsv from "./parsers/csv"
 import parseJson from "./parsers/json"
-// import parseXml from "./parsers/xml"
 
 export type ParseDataOptions = {
   contentType?: string
@@ -18,12 +18,11 @@ export function parseData(data: string, options: ParseDataOptions): any {
   } else if (contentType === "text/csv" || extension === "csv") {
     dataParsed = parseCsv(data)
   } else if (contentType === "text/xml" || extension === "xml") {
-    throw new Error("XML parsing is not implemented")
-    // dataParsed = parseXml(data, property)
+    throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
   } else if (contentType === "text/plain") {
     dataParsed = parseJson(data, property)
   } else {
-    throw new Error(`Unsupported content type: ${contentType}`)
+    throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
   }
 
   return dataParsed

@@ -1,6 +1,8 @@
-import {FetcherOptions, GraphqlOptions, RestOptions} from "../../fetchers"
+import {UNSUPPORTED_FETCHER} from "../../errors"
 import graphqlFetcher from "../../fetchers/graphql"
 import restFetcher from "../../fetchers/rest"
+
+import type {FetcherOptions, GraphqlOptions, RestOptions} from "../../types"
 
 export default async function fetcher(url: string, {fetcher, property, ...rest}: FetcherOptions<RestOptions | GraphqlOptions>): Promise<[]> {
   if (fetcher === "rest") {
@@ -8,6 +10,6 @@ export default async function fetcher(url: string, {fetcher, property, ...rest}:
   } else if (fetcher === "graphql") {
     return graphqlFetcher(url, {fetcher, property, ...rest} as FetcherOptions<GraphqlOptions>)
   } else {
-    throw new Error(`Unsupported fetcher: ${fetcher}`)
+    throw new Error(UNSUPPORTED_FETCHER(fetcher))
   }
 }
