@@ -25,7 +25,7 @@ export default async function graphqlFetcher(url: string, options: FetcherOption
 
   if (!response) throw new Error(NO_RESPONSE_FROM_SERVER())
 
-  const contentType = response?.headers.get("content-type")?.split(";")[0] || "application/json"
+  const contentType = response?.headers.get("content-type") || "application/json"
 
   if (!response.status || response?.status > 299 || response?.status < 200) {
     throw new Error(RESPONSE_INVALID(url, response.status, response.statusText))
