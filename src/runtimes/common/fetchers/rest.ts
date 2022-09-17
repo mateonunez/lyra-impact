@@ -1,6 +1,6 @@
-import {parseData} from "../utils"
-import type {FetcherOptions, RestOptions} from "../types"
-import {NO_RESPONSE_FROM_SERVER, RESPONSE_INVALID} from "../errors"
+import {parseData} from "../../../utils"
+import type {FetcherOptions, RestOptions} from "../../../types"
+import {NO_RESPONSE_FROM_SERVER, RESPONSE_INVALID} from "../../../errors"
 
 export default async function restFetcher(url: string, options: FetcherOptions<RestOptions>): Promise<[]> {
   const {method = "GET", property} = options

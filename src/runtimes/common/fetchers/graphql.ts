@@ -1,6 +1,6 @@
-import {parseData} from "../utils"
-import type {FetcherOptions, GraphqlOptions} from "../types"
-import {MISSING_GRAPHQL_QUERY, NO_RESPONSE_FROM_SERVER, RESPONSE_INVALID} from "../errors"
+import {parseData} from "../../../utils"
+import type {FetcherOptions, GraphqlOptions} from "../../../types"
+import {MISSING_GRAPHQL_QUERY, NO_RESPONSE_FROM_SERVER, RESPONSE_INVALID} from "../../../errors"
 
 export default async function graphqlFetcher(url: string, options: FetcherOptions<GraphqlOptions>): Promise<[]> {
   const {query, property} = options

@@ -1,8 +1,8 @@
-import type {FetcherOptions, FilesystemOptions} from "../types"
-import {isServer, parseData} from "../utils"
+import type {FetcherOptions, FilesystemOptions} from "../../../types"
+import {isServer, parseData} from "../../../utils"
 import fs from "fs"
 import path, {join} from "path"
-import {FILESYSTEM_NOT_SUPPORTED, FILE_NOT_FOUND} from "../errors"
+import {FILESYSTEM_NOT_SUPPORTED, FILE_NOT_FOUND} from "../../../errors"
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export default async function filesystemFetcher(url: string, options: FetcherOptions<FilesystemOptions>): Promise<[]> {
