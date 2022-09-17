@@ -1,33 +1,16 @@
-import {create, insert, Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
-import {FetcherOptions, GraphqlOptions, RestOptions} from "../../types"
-import {resolveSchema} from "../../schema/resolver"
-import type {ImpactOptions} from "../../types"
+import {Lyra, PropertiesSchema, search, SearchParams, SearchResult} from "@lyrasearch/lyra"
 import fetcher from "./fetcher"
+import {getFetcherOptions} from "../common/fetchers"
+import {createLyra, insertLyraData} from "../../utils"
+import type {ImpactOptions} from "../../types"
 
 export async function impact<T extends PropertiesSchema>(url: string, options?: ImpactOptions): Promise<Lyra<T>> {
-  const fetcherOptions = {
-    fetcher: "rest",
-    property: options?.property,
-    ...options?.fetch
-  } as FetcherOptions<RestOptions | GraphqlOptions>
+  const fetcherOptions = getFetcherOptions("rest", options?.property, options?.fetch)
 
   const data = (await fetcher(url, {...fetcherOptions})) as unknown as T
+  const lyra = createLyra(data, options?.lyra)
 
-  const schema = resolveSchema({}, data)
-  const lyraOptions = {...options?.lyra}
-  const lyra = create({schema, ...lyraOptions})
-
-  if (Array.isArray(data)) {
-    for (const entry of data) {
-      if (entry?.id) delete entry.id
-
-      insert(lyra, entry)
-    }
-  } else {
-    if (data?.id) delete data.id
-
-    insert(lyra, data)
-  }
+  insertLyraData(lyra, data)
 
   return lyra as unknown as Lyra<T>
 }
