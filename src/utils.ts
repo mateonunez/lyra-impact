@@ -15,13 +15,13 @@ export function parseData(data: string, options: ParseDataOptions): any {
   const {contentType = "*", extension, property} = options
 
   let dataParsed
-  if (contentType === "application/json" || extension === "json") {
+  if (contentType.includes("application/json") || extension?.includes("json")) {
     dataParsed = parseJson(data, property)
-  } else if (contentType === "text/csv" || extension === "csv") {
+  } else if (contentType.includes("text/csv") || extension?.includes("csv")) {
     dataParsed = parseCsv(data)
-  } else if (contentType === "text/xml" || extension === "xml") {
+  } else if (contentType.includes("text/xml") || extension?.includes("xml")) {
     throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
-  } else if (contentType === "text/plain") {
+  } else if (contentType.includes("text/plain")) {
     dataParsed = parseJson(data, property)
   } else {
     throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
