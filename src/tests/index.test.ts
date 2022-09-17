@@ -1,6 +1,6 @@
 import {search} from "@lyrasearch/lyra"
 import t from "tap"
-import {RESPONSE_INVALID} from "../errors"
+import {MISSING_GRAPHQL_QUERY, NO_RESPONSE_FROM_SERVER, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER} from "../errors"
 import {impact, collision} from "../runtimes/server"
 
 const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
@@ -206,7 +206,7 @@ t.test("should resolve filesystem data", t => {
 })
 
 t.test("errors", t => {
-  t.plan(1)
+  t.plan(4)
 
   t.test("should throw an error when the data is not a valid JSON", t => {
     t.plan(1)
@@ -215,6 +215,39 @@ t.test("errors", t => {
 
     impact(endpoint).catch(err => {
       t.equal(err.message, RESPONSE_INVALID(endpoint, 404, "Not Found"))
+    })
+  })
+
+  t.test("should throw an error with invalid fetcher", t => {
+    t.plan(1)
+
+    impact("https://rickandmortyapi.com/graphql", {
+      fetch: {
+        // @ts-expect-error invalid fetcher
+        fetcher: "invalid"
+      }
+    }).catch(err => {
+      t.equal(err.message, UNSUPPORTED_FETCHER("invalid"))
+    })
+  })
+
+  t.test("should throw an error when the content type is not supported", t => {
+    t.plan(1)
+
+    impact("https://www.w3schools.com/xml/simple.xml").catch(err => {
+      t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("text/xml"))
+    })
+  })
+
+  t.test("should throw an errors with missing graphql query", t => {
+    t.plan(1)
+
+    impact("https://rickandmortyapi.com/graphql", {
+      fetch: {
+        fetcher: "graphql"
+      }
+    }).catch(err => {
+      t.equal(err.message, MISSING_GRAPHQL_QUERY())
     })
   })
 })
