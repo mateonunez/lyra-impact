@@ -1,3 +1,4 @@
+import {UNSUPPORTED_TYPE_SCHEMA} from "../errors"
 import {getMaxOfArray} from "../utils"
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -28,7 +29,7 @@ export function resolveSchema(schema: any, data: any): any {
       } else if (type === "boolean") {
         schema[key] = "boolean"
       } else {
-        throw new Error(`Unsupported type: ${type}`)
+        throw new Error(UNSUPPORTED_TYPE_SCHEMA(type))
       }
     }
   }

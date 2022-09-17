@@ -1,21 +1,8 @@
-import graphqlFetcher from "./graphql"
-import restFetcher from "./rest"
-import filesystemFetcher from "./filesystem"
-
-export type RestOptions = RequestInit
-
-export type GraphqlOptions = {
-  query?: string
-}
-
-export type FilesystemOptions = {
-  path?: string
-}
-
-export type FetcherOptions<T> = {
-  fetcher: "rest" | "graphql" | "filesystem"
-  property?: string
-} & T
+import graphqlFetcher from "../../fetchers/graphql"
+import restFetcher from "../../fetchers/rest"
+import filesystemFetcher from "../../fetchers/filesystem"
+import {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../types"
+import {UNSUPPORTED_FETCHER} from "../../errors"
 
 export default async function fetcher(url: string, {fetcher, property, ...rest}: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>): Promise<[]> {
   if (fetcher === "rest") {
@@ -26,6 +13,6 @@ export default async function fetcher(url: string, {fetcher, property, ...rest}:
     // in this case, url is path
     return filesystemFetcher(url, {fetcher, property, ...rest} as FetcherOptions<FilesystemOptions>)
   } else {
-    throw new Error(`Unsupported fetcher: ${fetcher}`)
+    throw new Error(UNSUPPORTED_FETCHER(fetcher))
   }
 }

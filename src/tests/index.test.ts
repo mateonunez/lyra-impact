@@ -1,5 +1,6 @@
 import {search} from "@lyrasearch/lyra"
 import t from "tap"
+import {RESPONSE_INVALID} from "../errors"
 import {impact, collision} from "../runtimes/server"
 
 const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
@@ -210,8 +211,10 @@ t.test("errors", t => {
   t.test("should throw an error when the data is not a valid JSON", t => {
     t.plan(1)
 
-    impact("https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json").catch(err => {
-      t.equal(err.message, "Error fetching data from https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json: 404 Not Found")
+    const endpoint = "https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json"
+
+    impact(endpoint).catch(err => {
+      t.equal(err.message, RESPONSE_INVALID(endpoint, 404, "Not Found"))
     })
   })
 })
