@@ -14,15 +14,29 @@ export type ParseDataOptions = {
 export function parseData(data: string, options: ParseDataOptions): any {
   const {contentType = "*", extension, property} = options
 
+  const computeProperty = (property?: string) => {
+    if (property) return property
+
+    const dataParsed = JSON.parse(data)
+    const keys = Object.keys(dataParsed)
+    const mainProperty = keys.every(key => Number.isInteger(Number(key))) ? "" : keys[0]
+
+    if (!mainProperty) return mainProperty
+
+    // computing nested properties are not supported yet
+    const computedProperty = Array.isArray(dataParsed[mainProperty]) ? mainProperty : ""
+    return computedProperty
+  }
+
   let dataParsed
   if (contentType.includes("application/json") || extension?.includes("json")) {
-    dataParsed = parseJson(data, property)
+    dataParsed = parseJson(data, computeProperty(property))
   } else if (contentType.includes("text/csv") || extension?.includes("csv")) {
     dataParsed = parseCsv(data)
   } else if (contentType.includes("text/xml") || extension?.includes("xml")) {
     throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
   } else if (contentType.includes("text/plain")) {
-    dataParsed = parseJson(data, property)
+    dataParsed = parseJson(data, computeProperty(property))
   } else {
     throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
   }
