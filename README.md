@@ -24,6 +24,7 @@ See the full list of examples: [mateonunez/lyra-impact-examples](https://github.
 
 - [React](https://lyra-impact-examples-with-react.vercel.app/)
 - [Vue](https://lyra-impact-examples-with-vue.vercel.app/)
+- [Supercharged](https://lyra-impact-supercharged.vercel.app/)
 
 ## Usage
 
@@ -32,8 +33,8 @@ import { search } from "@lyrasearch/lyra"
 import { impact } from "@mateonunez/lyra-impact"
 
 (async () => {
-  const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
-  const lyra = await impact(endpoint)
+  const lyra = await impact("https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json")
+
   const { hits } = search(lyra, { term: "pikachu" })
 
   console.log(hits)
@@ -141,8 +142,9 @@ import { impact } from "@mateonunez/lyra-impact"
 import { collision } from "@mateonunez/lyra-impact"
 
 (async () => {
-  const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
-  const { hits } = await collision(endpoint, { term: "pikachu" })
+  const { hits } = await collision("https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json", { 
+    term: "pikachu" 
+  })
 
   console.log(hits)
 })();
