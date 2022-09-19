@@ -34,11 +34,7 @@ import { impact } from "@mateonunez/lyra-impact"
 (async () => {
   const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
   const lyra = await impact(endpoint)
-
-  const { hits } = search(lyra, {
-    term: "pikachu",
-    properties: ["name"]
-  })
+  const { hits } = search(lyra, { term: "pikachu" })
 
   console.log(hits)
 })();
@@ -146,11 +142,7 @@ import { collision } from "@mateonunez/lyra-impact"
 
 (async () => {
   const endpoint = "https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json"
-  const { hits } = await collision(endpoint, {
-      term: "pikachu",
-      properties: ["name"]
-    }
-  )
+  const { hits } = await collision(endpoint, { term: "pikachu" })
 
   console.log(hits)
 })();
