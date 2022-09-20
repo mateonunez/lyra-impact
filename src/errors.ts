@@ -18,10 +18,6 @@ export function MISSING_GRAPHQL_QUERY(): string {
   return "Missing graphql query"
 }
 
-export function NO_RESPONSE_FROM_SERVER(): string {
-  return "No response from server"
-}
-
 export function RESPONSE_INVALID(url: string, status: number, statusText: string): string {
   return `Error fetching data from ${url}: ${status} ${statusText}`
 }
