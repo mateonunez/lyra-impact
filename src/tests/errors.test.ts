@@ -2,9 +2,10 @@ import t from "tap"
 import {FILESYSTEM_NOT_SUPPORTED, FILE_NOT_FOUND, MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER} from "../errors"
 import {impact} from "../runtimes/server"
 import {impact as impactBrowser} from "../runtimes/client"
+import {parseData} from "../utils"
 
 t.test("errors", t => {
-  t.plan(7)
+  t.plan(8)
 
   t.test("should throw an error when the data is not a valid JSON", t => {
     t.plan(1)
@@ -80,5 +81,16 @@ t.test("errors", t => {
     impact("https://httpstat.us/500").catch(err => {
       t.equal(err.message, RESPONSE_INVALID("https://httpstat.us/500", 500, "Internal Server Error"))
     })
+  })
+
+  t.test("should throw an error when contentType is not supported", t => {
+    t.plan(1)
+
+    try {
+      parseData("test", {contentType: "invalid"})
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("invalid"))
+    }
   })
 })
