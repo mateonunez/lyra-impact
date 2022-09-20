@@ -7,13 +7,12 @@ export default function parseJson(data: string, property?: string): any {
     const propertyArray = property.split(".")
 
     if (isNestedProperty) {
-      let i = 0
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       let dataParsedNested: any = dataParsed
 
-      while (i < propertyArray.length) {
-        dataParsedNested = dataParsedNested[propertyArray[i]]
-        i++
+      for (let i = 0; i < propertyArray.length; i++) {
+        const property = propertyArray[i]
+        dataParsedNested = dataParsedNested[property]
       }
 
       dataParsed = dataParsedNested
