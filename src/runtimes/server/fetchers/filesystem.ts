@@ -9,7 +9,8 @@ export default async function filesystemFetcher(url: string, options: FetcherOpt
   if (!isServer) throw new Error(FILESYSTEM_NOT_SUPPORTED())
 
   const filePath = path.resolve(join(process.cwd(), url))
-  if (!fs.existsSync(filePath)) throw new Error(FILE_NOT_FOUND(filePath))
+
+  if (!fs.existsSync(filePath)) throw new Error(FILE_NOT_FOUND(url))
 
   const extension = path.extname(filePath)
   const contentType = extension === "json" ? "application/json" : extension === ".csv" ? "text/csv" : "text/plain" // TODO: manage better content types
