@@ -78,8 +78,8 @@ t.test("errors", t => {
   t.test("should throw an error when the response status code is not OK", t => {
     t.plan(1)
 
-    impact("https://httpstat.us/500").catch(err => {
-      t.equal(err.message, RESPONSE_INVALID("https://httpstat.us/500", 500, "Internal Server Error"))
+    impact("https://httpstat.us/404").catch(err => {
+      t.equal(err.message, RESPONSE_INVALID("https://httpstat.us/404", 404, "Not Found"))
     })
   })
 
