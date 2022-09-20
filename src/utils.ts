@@ -29,14 +29,12 @@ export function parseData(data: string, options: ParseDataOptions): any {
   }
 
   let dataParsed
-  if (contentType.includes("application/json") || extension?.includes("json")) {
+  if (contentType.includes("application/json") || extension?.includes("json") || contentType.includes("text/plain")) {
     dataParsed = parseJson(data, computeProperty(property))
   } else if (contentType.includes("text/csv") || extension?.includes("csv")) {
     dataParsed = parseCsv(data)
   } else if (contentType.includes("text/xml") || extension?.includes("xml")) {
     throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
-  } else if (contentType.includes("text/plain")) {
-    dataParsed = parseJson(data, computeProperty(property))
   } else {
     throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
   }
