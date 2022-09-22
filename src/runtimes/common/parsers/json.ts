@@ -12,7 +12,7 @@ export default function parseJson(data: string, property?: string): any {
 
       for (let i = 0; i < propertyArray.length; i++) {
         const property = propertyArray[i]
-        dataParsedNested = dataParsedNested[property]
+        if (dataParsedNested[property]) dataParsedNested = dataParsedNested[property]
       }
 
       dataParsed = dataParsedNested
