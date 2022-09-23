@@ -68,10 +68,14 @@ export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: 
     for (const entry of data) {
       if (entry?.id) delete entry.id
 
-      insert(lyra, entry)
+      insertLyraData(lyra, entry)
     }
   } else {
     if (data?.id) delete data.id
+
+    for (const key in data) {
+      if (!data[key]) delete data[key]
+    }
 
     insert(lyra, data)
   }
