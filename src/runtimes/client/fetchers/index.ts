@@ -1,8 +1,8 @@
-import {FILESYSTEM_NOT_SUPPORTED, UNSUPPORTED_FETCHER} from "../../errors"
-import graphqlFetcher from "../common/fetchers/graphql"
-import restFetcher from "../common/fetchers/rest"
+import {FILESYSTEM_NOT_SUPPORTED, UNSUPPORTED_FETCHER} from "../../../errors"
+import graphqlFetcher from "./graphql"
+import restFetcher from "./rest"
 
-import type {FetcherOptions, GraphqlOptions, RestOptions} from "../../types"
+import type {FetcherOptions, GraphqlOptions, RestOptions} from "../../../types"
 
 export default async function fetcher(url: string, {fetcher, property, ...rest}: FetcherOptions<RestOptions | GraphqlOptions>): Promise<[]> {
   if (fetcher === "rest") {

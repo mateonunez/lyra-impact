@@ -13,7 +13,7 @@ t.test("errors", t => {
     const endpoint = "https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json"
 
     impact(endpoint).catch(err => {
-      t.equal(err.message, RESPONSE_INVALID(endpoint, 404, "Not Found"))
+      t.equal(err.message, RESPONSE_INVALID(endpoint, 404))
     })
   })
 
@@ -79,7 +79,7 @@ t.test("errors", t => {
     t.plan(1)
 
     impact("https://httpbin.org/status/404").catch(err => {
-      t.equal(err.message, RESPONSE_INVALID("https://httpbin.org/status/404", 404, "NOT FOUND"))
+      t.equal(err.message, RESPONSE_INVALID("https://httpbin.org/status/404", 404))
     })
   })
 
