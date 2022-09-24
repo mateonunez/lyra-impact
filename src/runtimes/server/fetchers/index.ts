@@ -1,5 +1,5 @@
-import graphqlFetcher from "../../common/fetchers/graphql"
-import restFetcher from "../../server/fetchers/rest"
+import graphqlFetcher from "./graphql"
+import restFetcher from "./rest"
 import filesystemFetcher from "./filesystem"
 import {FetcherOptions, FilesystemOptions, GraphqlOptions, RestOptions} from "../../../types"
 import {UNSUPPORTED_FETCHER} from "../../../errors"
