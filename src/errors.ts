@@ -1,4 +1,4 @@
-import httpStatus from 'http-status'
+import httpStatus from "http-status"
 
 export function UNSUPPORTED_FETCHER(fetcher: string): string {
   return `Unsupported fetcher: ${fetcher}`

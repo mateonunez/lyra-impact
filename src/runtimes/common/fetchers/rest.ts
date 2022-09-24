@@ -13,7 +13,7 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
   })
 
   if (!response.status || response?.status > 299 || response?.status < 200) {
-    throw new Error(RESPONSE_INVALID(url, response.status, response.statusText))
+    throw new Error(RESPONSE_INVALID(url, response.status))
   }
 
   const contentType = response?.headers.get("content-type") || "application/json"
