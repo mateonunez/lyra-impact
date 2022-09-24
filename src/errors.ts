@@ -1,3 +1,5 @@
+import httpStatus from 'http-status'
+
 export function UNSUPPORTED_FETCHER(fetcher: string): string {
   return `Unsupported fetcher: ${fetcher}`
 }
@@ -18,8 +20,9 @@ export function MISSING_GRAPHQL_QUERY(): string {
   return "Missing graphql query"
 }
 
-export function RESPONSE_INVALID(url: string, status: number, statusText: string): string {
-  return `Error fetching data from ${url}: ${status} ${statusText}`
+export function RESPONSE_INVALID(url: string, statusCode: number): string {
+  const statusText = httpStatus[statusCode]
+  return `Error fetching data from ${url}: ${statusCode} ${statusText}`
 }
 
 export function UNSUPPORTED_TYPE_SCHEMA(type: string): string {
