@@ -9,7 +9,7 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
 
   const response = await fetch(url, {
     method,
-    ...options
+    ...(options as unknown as RequestInit)
   })
 
   if (!response.status || response?.status > 299 || response?.status < 200) {
