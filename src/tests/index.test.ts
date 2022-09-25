@@ -14,7 +14,8 @@ t.test("should retrieve the data and create a Lyra instance", t => {
       property: "pokemon"
     })
     const result = search(lyra, {
-      term: "pikachu"
+      term: "pikachu",
+      properties: ["name"]
     })
 
     t.equal(result.count, 1)

@@ -21,8 +21,6 @@ export function parseData(data: string, options: ParseDataOptions): any {
     const keys = Object.keys(dataParsed)
     const mainProperty = keys.every(key => Number.isInteger(Number(key))) ? "" : keys[0]
 
-    if (!mainProperty) return mainProperty
-
     // computing nested properties are not supported yet
     const computedProperty = Array.isArray(dataParsed[mainProperty]) ? mainProperty : ""
     return computedProperty
@@ -64,19 +62,38 @@ export function createLyra<T extends PropertiesSchema>(data: any, options?: Lyra
 }
 
 export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: any): void {
-  if (Array.isArray(data)) {
-    for (const entry of data) {
-      if (entry?.id) delete entry.id
+  let dataToInsert = data
+
+  if (Array.isArray(dataToInsert)) {
+    for (let entry of dataToInsert) {
+      entry = removeId(entry)
+      entry = removeNulls(entry)
 
       insertLyraData(lyra, entry)
     }
   } else {
-    if (data?.id) delete data.id
+    dataToInsert = removeId(dataToInsert)
+    dataToInsert = removeNulls(dataToInsert)
 
-    for (const key in data) {
-      if (!data[key]) delete data[key]
+    for (const key in dataToInsert) {
+      // Array of objects are not supported yet
+      if (Array.isArray(dataToInsert[key])) delete dataToInsert[key]
     }
 
-    insert(lyra, data)
+    insert(lyra, dataToInsert)
   }
+}
+
+function removeId(entry: any) {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const {id, ...rest} = entry
+  return rest
+}
+
+function removeNulls(entry: any) {
+  const rest: any = {}
+  for (const key in entry) {
+    if (entry[key] !== null) rest[key] = entry[key]
+  }
+  return rest
 }
