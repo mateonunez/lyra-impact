@@ -52,7 +52,7 @@ export function getMaxOfArray(array: any[]): number {
 
 export const isServer = typeof window === "undefined"
 
-export function createLyra<T extends PropertiesSchema>(data: any, options?: LyraConfiguration<any>): Lyra<T> {
+export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema">): Lyra<T> {
   const schema = resolveSchema({}, data)
   const lyra = create({
     schema,
