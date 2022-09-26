@@ -1,4 +1,4 @@
-import httpStatus from "http-status"
+import {HTTP_STATUS} from "./http-status"
 
 export function UNSUPPORTED_FETCHER(fetcher: string): string {
   return `Unsupported fetcher: ${fetcher}`
@@ -21,7 +21,7 @@ export function MISSING_GRAPHQL_QUERY(): string {
 }
 
 export function RESPONSE_INVALID(url: string, statusCode: number): string {
-  const statusText = httpStatus[statusCode]
+  const statusText = HTTP_STATUS[statusCode]
   return `Error fetching data from ${url}: ${statusCode} ${statusText}`
 }
 
