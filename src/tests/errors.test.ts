@@ -1,11 +1,12 @@
 import t from "tap"
-import {FILESYSTEM_NOT_SUPPORTED, FILE_NOT_FOUND, MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER} from "../errors"
+import {FILESYSTEM_NOT_SUPPORTED, FILE_NOT_FOUND, MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER, UNSUPPORTED_TYPE_SCHEMA} from "../errors"
 import {impact} from "../runtimes/server"
 import {impact as impactBrowser} from "../runtimes/client"
 import {parseData} from "../utils"
+import {resolveSchema} from "../schema/resolver"
 
 t.test("errors", t => {
-  t.plan(8)
+  t.plan(10)
 
   t.test("should throw an error when the data is not a valid JSON", t => {
     t.plan(1)
@@ -92,5 +93,39 @@ t.test("errors", t => {
     } catch (err: any) {
       t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("invalid"))
     }
+  })
+
+  t.test("should throw an error when the schema is not valid", t => {
+    t.plan(1)
+
+    try {
+      const data = {
+        username: "mateonunez",
+        description: () => ({})
+      }
+
+      resolveSchema({}, data)
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      t.equal(err.message, UNSUPPORTED_TYPE_SCHEMA("function"))
+    }
+  })
+
+  t.test("parsing xml data should throw an error", t => {
+    const data = `<?xml version="1.0" encoding="UTF-8"?>
+    <note>
+      <to>Tove</to>
+      <from>Jani</from>
+      <heading>Reminder</heading>
+      <body>Don't forget me this weekend!</body>
+    </note>`
+
+    try {
+      parseData(data, {extension: "xml"})
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("*"))
+    }
+    t.end()
   })
 })
