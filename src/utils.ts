@@ -24,15 +24,13 @@ export function computeProperty(data: string, property?: string): string {
 export function parseData(data: string, options: ParseDataOptions): any {
   const {contentType = "*", extension, property} = options
 
-  let dataParsed
   if (contentType.includes("application/json") || extension?.includes("json") || contentType.includes("text/plain")) {
-    dataParsed = parseJson(data, computeProperty(data, property))
+    return parseJson(data, computeProperty(data, property))
   } else if (contentType.includes("text/csv") || extension?.includes("csv")) {
-    dataParsed = parseCsv(data)
-  } else {
-    throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
+    return parseCsv(data)
   }
-  return dataParsed
+
+  throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
 }
 
 export function sanitizeString(str: string): string {

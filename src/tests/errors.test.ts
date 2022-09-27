@@ -1,144 +1,75 @@
-import t from "tap"
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import {test} from "tap"
 import {FILE_NOT_FOUND, MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER, UNSUPPORTED_TYPE_SCHEMA} from "../errors"
 import {impact} from "../runtimes/server"
-import {parseData} from "../utils"
 import {resolveSchema} from "../schema/resolver"
 
-t.test("errors", t => {
-  t.plan(12)
+const rickAndMorty = "https://rickandmortyapi.com/api/character"
+const xml = "https://www.w3schools.com/xml/simple.xml"
 
-  t.test("should throw an error when the data is not a valid JSON", t => {
-    const endpoint = "https://raw.githubusercontent.com/falsy/pokemon.json/falsy/pokedex.json"
+test("errors - runtime server", ({test, plan}) => {
+  plan(2)
 
-    t.rejects(impact(endpoint), new Error(RESPONSE_INVALID(endpoint, 404)))
-    t.end()
-  })
+  test("fetchers", ({test, plan}) => {
+    plan(4)
 
-  t.test("should throw an error with invalid fetcher", t => {
-    impact("https://rickandmortyapi.com/graphql", {
-      fetch: {
-        // @ts-expect-error invalid fetcher
-        fetcher: "invalid"
-      }
-    }).catch(err => {
-      t.equal(err.message, UNSUPPORTED_FETCHER("invalid"))
-      t.end()
+    test("invalid fetcher is not supported", ({rejects, end}) => {
+      rejects(impact(rickAndMorty, {fetch: {fetcher: "invalid" as any}}), new Error(UNSUPPORTED_FETCHER("invalid")))
+      end()
+    })
+
+    test("invalid response should throw an error", ({test, plan}) => {
+      plan(3)
+
+      test("rest", ({rejects, end}) => {
+        rejects(impact("https://httpstat.us/500"), new Error(RESPONSE_INVALID("https://httpstat.us/500", 500)))
+        end()
+      })
+
+      test("graphql", ({rejects, end}) => {
+        rejects(impact("https://httpstat.us/500", {fetch: {fetcher: "graphql", query: "invalid"}}), new Error(RESPONSE_INVALID("https://httpstat.us/500", 500)))
+        end()
+      })
+
+      test("filesystem", ({rejects, end}) => {
+        rejects(impact("invalid", {fetch: {fetcher: "filesystem"}}), new Error(FILE_NOT_FOUND("invalid")))
+        end()
+      })
+    })
+
+    test("missing query should thrown an error in graphql", ({rejects, end}) => {
+      rejects(impact("https://rickandmortyapi.com/graphql", {fetch: {fetcher: "graphql"}}), new Error(MISSING_GRAPHQL_QUERY()))
+      end()
+    })
+
+    test("invalid content type should throw an error", ({test, plan}) => {
+      plan(2)
+
+      test("rest", ({rejects, end}) => {
+        rejects(impact(xml), new Error(UNSUPPORTED_CONTENT_TYPE("text/xml")))
+        end()
+      })
+
+      test("filesystem", ({rejects, end}) => {
+        rejects(impact("./github/workflows/ci.yml", {fetch: {fetcher: "filesystem"}}))
+        end()
+      })
     })
   })
 
-  t.test("should throw an error when the content type is not supported", t => {
-    impact("https://www.w3schools.com/xml/simple.xml").catch(err => {
-      t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("text/xml"))
-      t.end()
-    })
-  })
+  test("schema", ({test, plan}) => {
+    plan(1)
 
-  t.test("should throw an error when the content type is not supported", t => {
-    t.throws(
-      () => {
-        parseData("invalid", {contentType: "text/pokemon"})
-      },
-      {message: UNSUPPORTED_CONTENT_TYPE("text/pokemon")}
-    )
-    t.end()
-  })
+    test("invalid schema should throw an error", ({same, end}) => {
+      const data = {username: "mateonunez", description: () => ({})}
 
-  t.test("should throw an errors with missing graphql query", t => {
-    impact("https://rickandmortyapi.com/graphql", {
-      fetch: {
-        fetcher: "graphql"
+      try {
+        resolveSchema({}, data)
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      } catch (err: any) {
+        same(err.message, UNSUPPORTED_TYPE_SCHEMA("function"))
+        end()
       }
-    }).catch(err => {
-      t.equal(err.message, MISSING_GRAPHQL_QUERY())
-      t.end()
-    })
-  })
-
-  t.test("should throw an error when the file does not exist", t => {
-    const path = "./src/tests/invalid.json"
-    impact(path, {
-      fetch: {
-        fetcher: "filesystem"
-      }
-    }).catch(err => {
-      t.equal(err.message, FILE_NOT_FOUND(path))
-      t.end()
-    })
-  })
-
-  t.test("should throw an error when the response status code is not OK", t => {
-    impact("https://httpbin.org/status/404").catch(err => {
-      t.equal(err.message, RESPONSE_INVALID("https://httpbin.org/status/404", 404))
-      t.end()
-    })
-  })
-
-  t.test("should throw an error when contentType is not supported", t => {
-    try {
-      parseData("test", {contentType: "invalid"})
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("invalid"))
-      t.end()
-    }
-  })
-
-  t.test("should throw an error when the schema is not valid", t => {
-    try {
-      const data = {
-        username: "mateonunez",
-        description: () => ({})
-      }
-
-      resolveSchema({}, data)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      t.equal(err.message, UNSUPPORTED_TYPE_SCHEMA("function"))
-      t.end()
-    }
-  })
-
-  t.test("parsing xml data should throw an error", t => {
-    const data = `<?xml version="1.0" encoding="UTF-8"?>
-    <note>
-      <to>Tove</to>
-      <from>Jani</from>
-      <heading>Reminder</heading>
-      <body>Don't forget me this weekend!</body>
-    </note>`
-
-    try {
-      parseData(data, {extension: "xml"})
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (err: any) {
-      t.equal(err.message, UNSUPPORTED_CONTENT_TYPE("*"))
-      t.end()
-    }
-  })
-
-  t.test("should retrieve an error when the response is invalid using graphql", async t => {
-    await impact("https://httpbin.org/status/404", {
-      fetch: {
-        fetcher: "graphql",
-        query: `{}`
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }).catch((err: any) => {
-      t.equal(err.message, RESPONSE_INVALID("https://httpbin.org/status/404", 404))
-      t.end()
-    })
-  })
-
-  t.test("should retrieve an error when the response is invalid", async t => {
-    await impact("https://rickandmortyapi.com/graphql", {
-      fetch: {
-        // @ts-expect-error invalid fetcher
-        fetcher: "invalid"
-      }
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    }).catch((err: any) => {
-      t.equal(err.message, UNSUPPORTED_FETCHER("invalid"))
-      t.end()
     })
   })
 })

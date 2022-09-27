@@ -180,7 +180,7 @@ test("server runtime", ({test, plan}) => {
 
     same(json, "application/json")
     same(csv, "text/csv")
-    same(txt, "text/plain")
+    same(txt, "text/txt")
     end()
   })
 
