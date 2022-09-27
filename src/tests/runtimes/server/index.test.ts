@@ -1,5 +1,5 @@
+import {test} from "tap"
 import {search} from "@lyrasearch/lyra"
-import t from "tap"
 import {collision, impact} from "../../../runtimes/server"
 import {getContentType} from "../../../runtimes/server/fetchers/filesystem"
 import {getExtensionFromUrl} from "../../../utils"
@@ -9,48 +9,48 @@ const countries = "https://cdn.wsform.com/wp-content/uploads/2018/09/country_ful
 const rickMorty = "https://rickandmortyapi.com/api/character"
 const rickMortyGraphql = "https://rickandmortyapi.com/graphql"
 
-t.test("server runtime", t => {
-  t.plan(4)
+test("server runtime", ({test, plan}) => {
+  plan(4)
 
-  t.test("impact", async t => {
-    t.plan(3)
+  test("impact", ({test, plan}) => {
+    plan(3)
 
-    t.test("rest fetcher", async t => {
-      t.test("should create a lyra instance", async t => {
-        t.plan(3)
+    test("rest fetcher", ({test, end}) => {
+      test("should create a lyra instance", ({test, plan}) => {
+        plan(3)
 
-        t.test("without property", async t => {
+        test("without property", async ({same, end}) => {
           const lyra = await impact(pokedex)
           const result = search(lyra, {term: "pikachu"})
 
-          t.equal(result.count, 1)
-          t.end()
+          same(result.count, 1)
+          end()
         })
 
-        t.test("with property", async t => {
+        test("with property", async ({same, end}) => {
           const lyra = await impact(rickMorty, {property: "results"})
           const result = search(lyra, {term: "rick", properties: ["name"]})
 
-          t.equal(result.count, 4)
-          t.end()
+          same(result.count, 4)
+          end()
         })
 
-        t.test("from online csv", async t => {
+        test("from online csv", async ({same, end}) => {
           const lyra = await impact(countries)
           const result = search(lyra, {term: "Colombia"})
 
-          t.equal(result.count, 1)
-          t.end()
+          same(result.count, 1)
+          end()
         })
       })
-      t.end()
+      end()
     })
 
-    t.test("graphql fetcher", async t => {
-      t.test("should create a lyra instance", async t => {
-        t.plan(1)
+    test("graphql fetcher", async ({test, end}) => {
+      test("should create a lyra instance", async ({test, plan}) => {
+        plan(1)
 
-        t.test("with property", async t => {
+        test("with property", async ({same, end}) => {
           const lyra = await impact(rickMortyGraphql, {
             fetch: {
               fetcher: "graphql",
@@ -70,65 +70,65 @@ t.test("server runtime", t => {
           })
           const result = search(lyra, {term: "rick", properties: ["name"]})
 
-          t.equal(result.count, 4)
-          t.end()
+          same(result.count, 4)
+          end()
         })
       })
-      t.end()
+      end()
     })
 
-    t.test("filesystem fetcher", async t => {
-      t.test("should create a lyra instance", async t => {
-        t.plan(1)
+    test("filesystem fetcher", async ({test, end}) => {
+      test("should create a lyra instance", async ({test, plan}) => {
+        plan(1)
 
-        t.test("json", async t => {
+        test("json", async ({same, end}) => {
           const lyra = await impact("./package.json", {fetch: {fetcher: "filesystem"}})
           const result = search(lyra, {term: "mateonunez"})
 
-          t.equal(result.count, 1)
-          t.end()
+          same(result.count, 1)
+          end()
         })
       })
-      t.end()
+      end()
     })
   })
 
-  t.test("collision", async t => {
-    t.plan(3)
+  test("collision", ({test, plan}) => {
+    plan(3)
 
-    t.test("rest fetcher", async t => {
-      t.test("should create a lyra instance", async t => {
-        t.plan(3)
+    test("rest fetcher", ({test, end}) => {
+      test("should create a lyra instance", ({test, plan}) => {
+        plan(3)
 
-        t.test("without property", async t => {
+        test("without property", async ({same, end}) => {
           const {hits} = await collision(pokedex, {term: "pikachu"})
 
-          t.equal(hits.length, 1)
-          t.end()
+          same(hits.length, 1)
+          end()
         })
 
-        t.test("with property", async t => {
+        test("with property", async ({same, end}) => {
           const {hits} = await collision(rickMorty, {term: "rick", properties: ["name"]}, {property: "results"})
 
-          t.equal(hits.length, 4)
-          t.end()
+          same(hits.length, 4)
+          end()
         })
 
-        t.test("from online csv", async t => {
+        test("from online csv", async ({same, end}) => {
           const {hits} = await collision(countries, {term: "Colombia"})
 
-          t.equal(hits.length, 1)
-          t.end()
+          same(hits.length, 1)
+          end()
         })
       })
-      t.end()
+      end()
     })
 
-    t.test("graphql fetcher", async t => {
-      t.test("should create a lyra instance", async t => {
-        t.plan(1)
+    test("graphql fetcher", ({test, end}) => {
+      test("should create a lyra instance", ({test, plan}) => {
+        plan(1)
 
-        t.test("with property", async t => {
+        test("with property", async ({same, end}) => {
           const {hits} = await collision(
             rickMortyGraphql,
             {term: "rick", properties: ["name"]},
@@ -151,49 +151,49 @@ t.test("server runtime", t => {
             }
           )
 
-          t.equal(hits.length, 4)
-          t.end()
+          same(hits.length, 4)
+          end()
         })
       })
-      t.end()
+      end()
     })
 
-    t.test("filesystem fetcher", async t => {
-      t.test("should create a lyra instance", async t => {
-        t.plan(1)
+    test("filesystem fetcher", ({test, end}) => {
+      test("should create a lyra instance", ({test, plan}) => {
+        plan(1)
 
-        t.test("json", async t => {
+        test("json", async ({same, end}) => {
           const {hits} = await collision("./package.json", {term: "mateonunez"}, {fetch: {fetcher: "filesystem"}})
 
-          t.equal(hits.length, 1)
-          t.end()
+          same(hits.length, 1)
+          end()
         })
       })
-      t.end()
+      end()
     })
   })
 
-  t.test("content-type", t => {
+  test("content-type", ({same, end}) => {
     const json = getContentType("json")
     const csv = getContentType("csv")
     const txt = getContentType("txt")
 
-    t.equal(json, "application/json")
-    t.equal(csv, "text/csv")
-    t.equal(txt, "text/plain")
-    t.end()
+    same(json, "application/json")
+    same(csv, "text/csv")
+    same(txt, "text/plain")
+    end()
   })
 
-  t.test("extensions", t => {
+  test("extensions", ({same, end}) => {
     const json = getExtensionFromUrl("https://example.com/pokemon.json")
     const csv = getExtensionFromUrl("https://example.com/pokemon.csv")
     const txt = getExtensionFromUrl("https://example.com/pokemon.txt")
     const empty = getExtensionFromUrl("https://example.com/pokemon")
 
-    t.equal(json, "json")
-    t.equal(csv, "csv")
-    t.equal(txt, "txt")
-    t.equal(empty, "json")
-    t.end()
+    same(json, "json")
+    same(csv, "csv")
+    same(txt, "txt")
+    same(empty, "json")
+    end()
   })
 })

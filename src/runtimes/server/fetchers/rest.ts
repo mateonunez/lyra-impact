@@ -34,5 +34,5 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
 }
 
 export function getContentType(headers: IncomingHttpHeaders): string {
-  return headers["content-type"] || "application/json"
+  return headers["content-type"] as string
 }
