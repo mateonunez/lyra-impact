@@ -1,4 +1,4 @@
-import {parseData} from "../../../utils"
+import {getExtensionFromUrl, parseData} from "../../../utils"
 import type {FetcherOptions, RestOptions} from "../../../types"
 import {RESPONSE_INVALID} from "../../../errors"
 
@@ -16,9 +16,8 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
     throw new Error(RESPONSE_INVALID(url, response.status))
   }
 
-  const contentType = response?.headers.get("content-type") || "application/json"
-  const extension = url?.split(".").pop() || "json"
-
+  const contentType = getContentType(response.headers)
+  const extension = getExtensionFromUrl(url)
   const text = await response.text()
   const data = parseData(text, {
     contentType,
@@ -27,4 +26,8 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
   })
 
   return data
+}
+
+export function getContentType(headers: Headers): string {
+  return headers.get("content-type") || "application/json"
 }

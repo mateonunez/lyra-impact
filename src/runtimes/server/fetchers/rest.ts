@@ -1,8 +1,9 @@
+import {IncomingHttpHeaders} from "http"
 import {request} from "undici"
 import {HttpMethod} from "undici/types/dispatcher"
 import {RESPONSE_INVALID} from "../../../errors"
 import {FetcherOptions, RestOptions} from "../../../types"
-import {parseData} from "../../../utils"
+import {getExtensionFromUrl, parseData} from "../../../utils"
 
 export default async function restFetcher(url: string, options: FetcherOptions<RestOptions>): Promise<[]> {
   const method = options.method as HttpMethod | undefined
@@ -18,8 +19,8 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
     throw new Error(RESPONSE_INVALID(url, response.statusCode))
   }
 
-  const contentType = response.headers["content-type"] || "application/json"
-  const extension = url?.split(".").pop() || "json"
+  const contentType = getContentType(response.headers)
+  const extension = getExtensionFromUrl(url)
 
   const text = await response.body.text()
 
@@ -30,4 +31,8 @@ export default async function restFetcher(url: string, options: FetcherOptions<R
   })
 
   return data
+}
+
+export function getContentType(headers: IncomingHttpHeaders): string {
+  return headers["content-type"] || "application/json"
 }

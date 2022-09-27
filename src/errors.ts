@@ -1,30 +1,12 @@
 import {HTTP_STATUS} from "./http-status"
 
-export function UNSUPPORTED_FETCHER(fetcher: string): string {
-  return `Unsupported fetcher: ${fetcher}`
-}
-
-export function UNSUPPORTED_CONTENT_TYPE(contentType: string): string {
-  return `Unsupported content type: ${contentType}`
-}
-
-export function FILE_NOT_FOUND(filePath: string): string {
-  return `File not found: ${filePath}`
-}
-
-export function FILESYSTEM_NOT_SUPPORTED(): string {
-  return "Filesystem fetcher is not supported in browser"
-}
-
-export function MISSING_GRAPHQL_QUERY(): string {
-  return "Missing graphql query"
-}
-
-export function RESPONSE_INVALID(url: string, statusCode: number): string {
+export const UNSUPPORTED_FETCHER = (fetcher: string) => `Unsupported fetcher: ${fetcher}`
+export const UNSUPPORTED_CONTENT_TYPE = (contentType: string) => `Unsupported content type: ${contentType}`
+export const FILE_NOT_FOUND = (filePath: string) => `File not found: ${filePath}`
+export const FILESYSTEM_NOT_SUPPORTED = () => "Filesystem fetcher is not supported in browser"
+export const MISSING_GRAPHQL_QUERY = () => "Missing graphql query"
+export const RESPONSE_INVALID = (url: string, statusCode: number) => {
   const statusText = HTTP_STATUS[statusCode]
   return `Error fetching data from ${url}: ${statusCode} ${statusText}`
 }
-
-export function UNSUPPORTED_TYPE_SCHEMA(type: string): string {
-  return `Unsupported type schema: ${type}`
-}
+export const UNSUPPORTED_TYPE_SCHEMA = (type: string) => `Unsupported type schema: ${type}`

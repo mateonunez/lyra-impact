@@ -1,8 +1,10 @@
 import t from "tap"
+import parseCsv from "../../dist/runtimes/common/parsers/csv"
+import {resolveSchema} from "../schema/resolver"
 import {parseData} from "../utils"
 
 t.test("utils", t => {
-  t.plan(1)
+  t.plan(3)
 
   t.test("should parse the json data correctly", t => {
     t.plan(4)
@@ -82,7 +84,8 @@ t.test("utils", t => {
         "data": [
           {
             "name": "John",
-            "age": 30
+            "age": 30,
+            "has_car": true
           }
         ]
       }`
@@ -90,7 +93,8 @@ t.test("utils", t => {
       const expected = [
         {
           name: "John",
-          age: 30
+          age: 30,
+          has_car: true
         }
       ]
 
@@ -99,5 +103,38 @@ t.test("utils", t => {
       t.same(parsedData, expected)
       t.end()
     })
+  })
+
+  t.test("should parse the csv data correctly", t => {
+    t.plan(1)
+    // test an empty csv
+
+    t.test("should return an empty array", t => {
+      const data = ``
+
+      const expected: [] = []
+
+      const parsedData = parseCsv(data)
+
+      t.same(parsedData, expected)
+      t.end()
+    })
+  })
+
+  t.test("the resolve schema should consider only supported types", t => {
+    const data = {
+      name: "John",
+      age: 30,
+      has_car: false
+    }
+    const expectedSchema = {
+      name: "string",
+      age: "number",
+      has_car: "boolean"
+    }
+    const parsedSchema = resolveSchema({}, data)
+
+    t.same(parsedSchema, expectedSchema)
+    t.end()
   })
 })
