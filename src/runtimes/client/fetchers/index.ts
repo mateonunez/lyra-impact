@@ -1,4 +1,4 @@
-import {FILESYSTEM_NOT_SUPPORTED, UNSUPPORTED_FETCHER} from "../../../errors"
+import {UNSUPPORTED_FETCHER} from "../../../errors"
 import graphqlFetcher from "./graphql"
 import restFetcher from "./rest"
 
@@ -10,7 +10,7 @@ export default async function fetcher(url: string, {fetcher, property, ...rest}:
   } else if (fetcher === "graphql") {
     return graphqlFetcher(url, {fetcher, property, ...rest} as FetcherOptions<GraphqlOptions>)
   } else if (fetcher === "filesystem") {
-    throw new Error(FILESYSTEM_NOT_SUPPORTED())
+    throw new Error("Filesystem fetcher is not supported")
   } else {
     throw new Error(UNSUPPORTED_FETCHER(fetcher))
   }

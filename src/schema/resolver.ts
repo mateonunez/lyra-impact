@@ -34,9 +34,7 @@ export function resolveSchema(schema: any, data: any): any {
     }
   }
 
-  if (schema.id) {
-    delete schema.id
-  }
+  if (schema.id) delete schema.id
 
   return schema
 }

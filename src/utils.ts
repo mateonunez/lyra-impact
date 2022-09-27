@@ -11,33 +11,26 @@ export type ParseDataOptions = {
   property?: string
 }
 
+export function computeProperty(data: string, property?: string): string {
+  if (property) return property
+  const dataParsed = JSON.parse(data)
+  const keys = Object.keys(dataParsed)
+  const mainProperty = keys.every(key => Number.isInteger(Number(key))) ? "" : keys[0]
+  // computing nested properties are not supported yet
+  const computedProperty = Array.isArray(dataParsed[mainProperty]) ? mainProperty : ""
+  return computedProperty
+}
+
 export function parseData(data: string, options: ParseDataOptions): any {
   const {contentType = "*", extension, property} = options
 
-  const computeProperty = (property?: string) => {
-    if (property) return property
-
-    const dataParsed = JSON.parse(data)
-    const keys = Object.keys(dataParsed)
-    const mainProperty = keys.every(key => Number.isInteger(Number(key))) ? "" : keys[0]
-
-    // computing nested properties are not supported yet
-    const computedProperty = Array.isArray(dataParsed[mainProperty]) ? mainProperty : ""
-    return computedProperty
-  }
-
-  let dataParsed
   if (contentType.includes("application/json") || extension?.includes("json") || contentType.includes("text/plain")) {
-    dataParsed = parseJson(data, computeProperty(property))
+    return parseJson(data, computeProperty(data, property))
   } else if (contentType.includes("text/csv") || extension?.includes("csv")) {
-    dataParsed = parseCsv(data)
-  } else if (contentType.includes("text/xml") || extension?.includes("xml")) {
-    throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
-  } else {
-    throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
+    return parseCsv(data)
   }
 
-  return dataParsed
+  throw new Error(UNSUPPORTED_CONTENT_TYPE(contentType))
 }
 
 export function sanitizeString(str: string): string {
@@ -50,9 +43,7 @@ export function getMaxOfArray(array: any[]): number {
   return array.reduce((max, v) => (max >= v ? max : v), -Infinity)
 }
 
-export const isServer = typeof window === "undefined"
-
-export function createLyra<T extends PropertiesSchema>(data: any, options?: LyraConfiguration<any>): Lyra<T> {
+export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema">): Lyra<T> {
   const schema = resolveSchema({}, data)
   const lyra = create({
     schema,
@@ -82,6 +73,13 @@ export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: 
 
     insert(lyra, dataToInsert)
   }
+}
+
+export function getExtensionFromUrl(url: string): string {
+  const extension = url?.split(".").pop()
+  if (extension?.includes("/") || !extension) return "json"
+
+  return extension
 }
 
 function removeId(entry: any) {

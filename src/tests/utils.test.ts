@@ -1,103 +1,132 @@
-import t from "tap"
+import {test} from "tap"
+import {resolveSchema} from "../schema/resolver"
 import {parseData} from "../utils"
 
-t.test("utils", t => {
-  t.plan(1)
+test("utils - runtime server", ({test, plan}) => {
+  plan(2)
 
-  t.test("should parse the json data correctly", t => {
-    t.plan(4)
+  test("parsing data", ({test, plan}) => {
+    plan(2)
 
-    t.test("should parse a simple json without property", t => {
-      const data = `{
-        "name": "John",
-        "age": 30,
-        "cars": [
-          { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
-          { "name":"BMW", "models":[ "320", "X3", "X5" ] },
-          { "name":"Fiat", "models":[ "500", "Panda" ] }
-        ]
-      }`
+    test("json", ({test, plan}) => {
+      plan(4)
 
-      const expected = {
-        name: "John",
-        age: 30,
-        cars: [
+      test("without property", ({same, end}) => {
+        const data = `{
+          "name": "John",
+          "age": 30,
+          "cars": [
+            { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
+            { "name":"BMW", "models":[ "320", "X3", "X5" ] },
+            { "name":"Fiat", "models":[ "500", "Panda" ] }
+          ]
+        }`
+        const expected = {
+          name: "John",
+          age: 30,
+          cars: [
+            {name: "Ford", models: ["Fiesta", "Focus", "Mustang"]},
+            {name: "BMW", models: ["320", "X3", "X5"]},
+            {name: "Fiat", models: ["500", "Panda"]}
+          ]
+        }
+        const parsedData = parseData(data, {contentType: "application/json"})
+
+        same(parsedData, expected)
+        end()
+      })
+
+      test("with property", ({same, end}) => {
+        const data = `{
+          "name": "John",
+          "age": 30,
+          "cars": [
+            { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
+            { "name":"BMW", "models":[ "320", "X3", "X5" ] },
+            { "name":"Fiat", "models":[ "500", "Panda" ] }
+          ]
+        }`
+        const expected = [
           {name: "Ford", models: ["Fiesta", "Focus", "Mustang"]},
           {name: "BMW", models: ["320", "X3", "X5"]},
           {name: "Fiat", models: ["500", "Panda"]}
         ]
-      }
+        const parsedData = parseData(data, {contentType: "application/json", property: "cars"})
 
-      const parsedData = parseData(data, {contentType: "application/json"})
+        same(parsedData, expected)
+        end()
+      })
 
-      t.same(parsedData, expected)
-      t.end()
-    })
+      test("should parse a simple json with a nested property", ({same, end}) => {
+        const data = `{
+          "name": "John",
+          "age": 30,
+          "cars": {
+            "name":"Ford",
+            "models":[ "Fiesta", "Focus", "Mustang" ]
+          }
+        }`
+        const expected = ["Fiesta", "Focus", "Mustang"]
+        const parsedData = parseData(data, {contentType: "application/json", property: "cars.models"})
 
-    t.test("should parse a simple json with property", t => {
-      const data = `{
-        "name": "John",
-        "age": 30,
-        "cars": [
-          { "name":"Ford", "models":[ "Fiesta", "Focus", "Mustang" ] },
-          { "name":"BMW", "models":[ "320", "X3", "X5" ] },
-          { "name":"Fiat", "models":[ "500", "Panda" ] }
-        ]
-      }`
+        same(parsedData, expected)
+        end()
+      })
 
-      const expected = [
-        {name: "Ford", models: ["Fiesta", "Focus", "Mustang"]},
-        {name: "BMW", models: ["320", "X3", "X5"]},
-        {name: "Fiat", models: ["500", "Panda"]}
-      ]
-
-      const parsedData = parseData(data, {contentType: "application/json", property: "cars"})
-
-      t.same(parsedData, expected)
-      t.end()
-    })
-
-    t.test("should parse a simple json with a nested property", t => {
-      const data = `{
-        "name": "John",
-        "age": 30,
-        "cars": {
-          "name":"Ford", 
-          "models":[ "Fiesta", "Focus", "Mustang" ]
-        }
-      }`
-
-      const expected = ["Fiesta", "Focus", "Mustang"]
-
-      const parsedData = parseData(data, {contentType: "application/json", property: "cars.models"})
-
-      t.same(parsedData, expected)
-      t.end()
-    })
-
-    t.test("should compute the first useful property", t => {
-      t.plan(1)
-
-      const data = `{
-        "data": [
+      test("should compute the first useful property", ({same, end}) => {
+        const data = `{
+          "data": [
+            {
+              "name": "John",
+              "age": 30,
+              "has_car": true
+            }
+          ]
+        }`
+        const expected = [
           {
-            "name": "John",
-            "age": 30
+            name: "John",
+            age: 30,
+            has_car: true
           }
         ]
-      }`
 
-      const expected = [
-        {
-          name: "John",
-          age: 30
-        }
-      ]
+        const parsedData = parseData(data, {contentType: "application/json"})
 
-      const parsedData = parseData(data, {contentType: "application/json"})
+        same(parsedData, expected)
+        end()
+      })
+    })
 
-      t.same(parsedData, expected)
-      t.end()
+    test("csv", ({test, plan}) => {
+      plan(1)
+
+      test("should parse a simple csv", ({same, end}) => {
+        const data = `name,age
+                      John,30
+                      Sara,25`
+        const expected = [
+          {name: "John", age: "30"},
+          {name: "Sara", age: "25"}
+        ]
+        const parsedData = parseData(data, {contentType: "text/csv"})
+
+        same(parsedData, expected)
+        end()
+      })
+    })
+  })
+
+  test("schema", ({test, plan}) => {
+    plan(1)
+
+    test("the schema should be resolved", ({same, end}) => {
+      const data = {name: "mateonunez", age: 27, is_admin: false}
+      const expected = {name: "string", age: "number", is_admin: "boolean"}
+      const schema = resolveSchema({}, data)
+
+      same(schema, expected)
+      end()
     })
   })
 })

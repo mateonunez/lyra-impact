@@ -3,7 +3,7 @@ import type {Configuration as LyraConfiguration} from "@lyrasearch/lyra"
 import {RequestOptions} from "undici/types/dispatcher"
 
 export type ImpactOptions = {
-  lyra?: LyraConfiguration<any>
+  lyra?: Omit<LyraConfiguration<any>, "schema">
   fetch?: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
   property?: string
 }

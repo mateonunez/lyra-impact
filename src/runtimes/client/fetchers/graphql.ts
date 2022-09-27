@@ -27,11 +27,10 @@ export default async function graphqlFetcher(url: string, options: FetcherOption
     throw new Error(RESPONSE_INVALID(url, response.status))
   }
 
-  const contentType = response?.headers.get("content-type") || "application/json"
   // data property is by default on GraphQL standard
   const {data: dataNotParsed} = await response.json()
   const data = parseData(JSON.stringify(dataNotParsed), {
-    contentType,
+    contentType: "application/json",
     property
   })
 
