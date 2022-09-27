@@ -1,5 +1,5 @@
 import t from "tap"
-import parseCsv from "../../dist/runtimes/common/parsers/csv"
+import parseCsv from "../runtimes/common/parsers/csv"
 import {resolveSchema} from "../schema/resolver"
 import {parseData} from "../utils"
 
