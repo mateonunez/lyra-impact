@@ -23,5 +23,5 @@ export default async function filesystemFetcher(url: string, options: FetcherOpt
 }
 
 export function getContentType(extension: string) {
-  return extension === "json" ? "application/json" : extension === "csv" ? "text/csv" : `text/${extension.replace(".", "")}`
+  return extension === "json" ? "application/json" : extension === "csv" ? "text/csv" : `text/${extension.replace(/\./g, "")}`
 }
