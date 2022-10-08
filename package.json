@@ -1,6 +1,6 @@
 {
   "name": "@mateonunez/lyra-impact",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Create a Lyra database from anywhere",
   "main": "./dist/cjs/runtimes/server/index.js",
   "module": "./dist/esm/runtimes/server/index.js",
