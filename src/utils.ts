@@ -15,7 +15,7 @@ export function computeProperty(data: string, property?: string): string {
   if (property) return property
   const dataParsed = JSON.parse(data)
   const keys = Object.keys(dataParsed)
-  const mainProperty = keys.every(key => Number.isInteger(Number(key))) ? "" : keys[0]
+  const mainProperty = keys.every(key => Number.isInteger(Number(key))) ? "" : Object.hasOwn(dataParsed, "data") ? "data" : keys[0]
   // computing nested properties are not supported yet
   const computedProperty = Array.isArray(dataParsed[mainProperty]) ? mainProperty : ""
   return computedProperty
