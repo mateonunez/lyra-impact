@@ -1,3 +1,4 @@
+import { create, insert, search } from "@lyrasearch/lyra"
 import {test} from "tap"
 import {resolveSchema} from "../schema/resolver"
 import {parseData} from "../utils"
@@ -118,7 +119,7 @@ test("utils - runtime server", ({test, plan}) => {
   })
 
   test("schema", ({test, plan}) => {
-    plan(1)
+    plan(2)
 
     test("the schema should be resolved", ({same, end}) => {
       const data = {name: "mateonunez", age: 27, is_admin: false}
@@ -126,6 +127,23 @@ test("utils - runtime server", ({test, plan}) => {
       const schema = resolveSchema({}, data)
 
       same(schema, expected)
+      end()
+    })
+
+    test("the schema with nested object should be resolved and searchable", ({same, end}) => {
+      const data = {name: "mateonunez", age: 27, is_admin: false, address: {street: "street", number: 123}}
+      const expected = {name: "string", age: "number", is_admin: "boolean", address: {street: "string", number: "number"}}
+      const schema = resolveSchema({}, data)
+
+      const lyra = create({schema})
+      insert(lyra, data)
+      const {hits} = search(lyra, {
+        term: "street"
+      })
+
+      same(schema, expected)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      same(hits.map(({id, ...rest}) => ({...rest})), [data])
       end()
     })
   })
