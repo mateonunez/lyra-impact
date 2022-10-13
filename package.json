@@ -40,7 +40,7 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@lyrasearch/lyra": "^0.2.5",
+    "@lyrasearch/lyra": "^0.2.6",
     "undici": "^5.10.0"
   },
   "devDependencies": {
