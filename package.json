@@ -24,7 +24,8 @@
     "build:cjs": "tsc --project tsconfig.cjs.json",
     "build:esm": "tsc --project tsconfig.esm.json",
     "build:browser": "esbuild --bundle --sourcemap --target=es2019 --format=esm --outfile=./dist/client/index.js ./src/runtimes/client/index.ts",
-    "build": "rimraf ./dist && npm run build:esm && npm run build:cjs && npm run build:browser"
+    "build": "rimraf ./dist && npm run build:esm && npm run build:cjs && npm run build:browser",
+    "just": "ts-node ./src/just.ts"
   },
   "keywords": [
     "lyra",
@@ -45,6 +46,7 @@
   },
   "devDependencies": {
     "@fastify/pre-commit": "^2.0.2",
+    "@mateonunez/lyra-schema-resolver": "^0.0.2",
     "@types/node": "^18.7.3",
     "@types/tap": "^15.0.7",
     "@typescript-eslint/eslint-plugin": "^5.32.0",
