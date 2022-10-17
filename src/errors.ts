@@ -8,4 +8,3 @@ export const RESPONSE_INVALID = (url: string, statusCode: number) => {
   const statusText = HTTP_STATUS[statusCode]
   return `Error fetching data from ${url}: ${statusCode} ${statusText}`
 }
-export const UNSUPPORTED_TYPE_SCHEMA = (type: string) => `Unsupported type schema: ${type}`

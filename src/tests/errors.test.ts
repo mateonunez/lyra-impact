@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {test} from "tap"
-import {FILE_NOT_FOUND, MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER, UNSUPPORTED_TYPE_SCHEMA} from "../errors"
+import {FILE_NOT_FOUND, MISSING_GRAPHQL_QUERY, RESPONSE_INVALID, UNSUPPORTED_CONTENT_TYPE, UNSUPPORTED_FETCHER} from "../errors"
 import {impact} from "../runtimes/server"
-import {resolveSchema} from "../schema/resolver"
 
 const rickAndMorty = "https://rickandmortyapi.com/api/character"
 const xml = "https://www.w3schools.com/xml/simple.xml"
 
 test("errors - runtime server", ({test, plan}) => {
-  plan(2)
+  plan(1)
 
   test("fetchers", ({test, plan}) => {
     plan(4)
@@ -54,22 +53,6 @@ test("errors - runtime server", ({test, plan}) => {
         rejects(impact("./github/workflows/ci.yml", {fetch: {fetcher: "filesystem"}}))
         end()
       })
-    })
-  })
-
-  test("schema", ({test, plan}) => {
-    plan(1)
-
-    test("invalid schema should throw an error", ({same, end}) => {
-      const data = {username: "mateonunez", description: () => ({})}
-
-      try {
-        resolveSchema({}, data)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      } catch (err: any) {
-        same(err.message, UNSUPPORTED_TYPE_SCHEMA("function"))
-        end()
-      }
     })
   })
 })

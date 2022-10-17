@@ -3,7 +3,7 @@ import {Configuration as LyraConfiguration, create, insert, Lyra, PropertiesSche
 import {UNSUPPORTED_CONTENT_TYPE} from "./errors"
 import parseCsv from "./runtimes/common/parsers/csv"
 import parseJson from "./runtimes/common/parsers/json"
-import {resolveSchema} from "./schema/resolver"
+import resolveSchema from '@mateonunez/lyra-schema-resolver'
 
 export type ParseDataOptions = {
   contentType?: string
@@ -39,12 +39,8 @@ export function sanitizeString(str: string): string {
   return str.trim()
 }
 
-export function getMaxOfArray(array: any[]): number {
-  return array.reduce((max, v) => (max >= v ? max : v), -Infinity)
-}
-
 export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema">): Lyra<T> {
-  const schema = resolveSchema({}, data)
+  const schema = resolveSchema(data)
   const lyra = create({
     schema,
     ...options
