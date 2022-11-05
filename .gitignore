@@ -236,4 +236,7 @@ package-lock.json
 yarn.lock
 pnpm-lock.yaml
 
+# Synk
+.dccache
+
 # End of https://www.toptal.com/developers/gitignore/api/node,osx,windows,linux,visualstudiocode
