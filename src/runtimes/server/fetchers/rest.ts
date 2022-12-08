@@ -1,12 +1,11 @@
 import {IncomingHttpHeaders} from "http"
 import {request} from "undici"
-import {HttpMethod} from "undici/types/dispatcher"
 import {RESPONSE_INVALID} from "../../../errors"
 import {FetcherOptions, RestOptions} from "../../../types"
 import {getExtensionFromUrl, parseData} from "../../../utils"
 
 export default async function restFetcher(url: string, options: FetcherOptions<RestOptions>): Promise<[]> {
-  const method = options.method as HttpMethod | undefined
+  const method = options.method
   const property = options.property
 
   if (options.property) delete options.property
