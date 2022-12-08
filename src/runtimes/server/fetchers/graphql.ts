@@ -1,12 +1,11 @@
 import {request} from "undici"
 import {parseData} from "../../../utils"
 import {MISSING_GRAPHQL_QUERY, RESPONSE_INVALID} from "../../../errors"
-import type {HttpMethod} from "undici/types/dispatcher"
 import type {FetcherOptions, GraphqlOptions} from "../../../types"
 
 export default async function graphqlFetcher(url: string, options: FetcherOptions<GraphqlOptions>): Promise<[]> {
   const {query, property} = options
-  const method = "POST" as HttpMethod
+  const method = "POST"
 
   if (options.property) delete options.property
 
@@ -19,10 +18,9 @@ export default async function graphqlFetcher(url: string, options: FetcherOption
     body: JSON.stringify({
       query
     })
-  } as RequestInit
+  }
 
   const response = await request(url, {
-    // @ts-expect-error - Method is always POST
     method,
     ...optionsGql
   })
