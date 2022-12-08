@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type {Configuration as LyraConfiguration} from "@lyrasearch/lyra"
-import {RequestOptions} from "undici/types/dispatcher"
 
 export type ImpactOptions = {
   lyra?: Omit<LyraConfiguration<any>, "schema">
@@ -8,7 +7,7 @@ export type ImpactOptions = {
   property?: string
 }
 
-export type RestOptions = RequestInit | RequestOptions
+export type RestOptions = RequestInit
 
 export type GraphqlOptions = {
   query?: string
