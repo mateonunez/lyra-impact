@@ -5,7 +5,7 @@ import {FetcherOptions, RestOptions} from "../../../types"
 import {getExtensionFromUrl, parseData} from "../../../utils"
 
 export default async function restFetcher(url: string, options: FetcherOptions<RestOptions>): Promise<[]> {
-  const method = options.method
+  const method = options.method as any
   const property = options.property
 
   if (options.property) delete options.property
