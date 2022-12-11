@@ -3,7 +3,7 @@ import {Configuration as LyraConfiguration, create, insert, Lyra, PropertiesSche
 import {UNSUPPORTED_CONTENT_TYPE} from "./errors"
 import parseCsv from "./runtimes/common/parsers/csv"
 import parseJson from "./runtimes/common/parsers/json"
-import resolveSchema from '@mateonunez/lyra-schema-resolver'
+import resolveSchema from "@mateonunez/lyra-schema-resolver"
 
 export type ParseDataOptions = {
   contentType?: string
