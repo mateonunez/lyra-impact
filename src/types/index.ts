@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import type {Configuration as LyraConfiguration} from "@lyrasearch/lyra"
+import type {Configuration as LyraConfiguration} from "@lyrasearch/lyra/dist/types"
 
 export type ImpactOptions = {
   lyra?: Omit<LyraConfiguration<any>, "schema">

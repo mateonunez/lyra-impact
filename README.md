@@ -1,6 +1,6 @@
 # 🌍☄️️ Impact 
 
-Create a [Lyra](https://github.com/nearform/lyra) database from anywhere.
+Create a [Lyra](https://github.com/lyrasearch/lyra) database from anywhere.
 
 [![Tests](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/mateonunez/lyra-impact/actions/workflows/ci.yml)
 
@@ -35,7 +35,7 @@ import { impact } from "@mateonunez/lyra-impact"
 (async () => {
   const lyra = await impact("https://raw.githubusercontent.com/LyraSearch/lyra/main/examples/with-vue/public/pokedex.json")
 
-  const { hits } = search(lyra, { term: "pikachu" })
+  const { hits } = await search(lyra, { term: "pikachu" })
 
   console.log(hits)
 })();
@@ -101,7 +101,7 @@ import { impact } from "@mateonunez/lyra-impact"
     }
   })
 
-  const { hits } = search(lyra, {
+  const { hits } = await search(lyra, {
     term: "Morty"
   })
 
@@ -122,7 +122,7 @@ import { impact } from "@mateonunez/lyra-impact"
     }
   })
 
-  const { hits } = search(lyra, {
+  const { hits } = await search(lyra, {
     term: "Morty"
   })
 
