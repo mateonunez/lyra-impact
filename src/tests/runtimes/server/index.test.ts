@@ -21,7 +21,7 @@ test("server runtime", ({test, plan}) => {
 
         test("without property", async ({same, end}) => {
           const lyra = await impact(pokedex)
-          const result = search(lyra, {term: "pikachu"})
+          const result = await search(lyra, {term: "Pikachu"})
 
           same(result.count, 1)
           end()
@@ -29,7 +29,7 @@ test("server runtime", ({test, plan}) => {
 
         test("with property", async ({same, end}) => {
           const lyra = await impact(rickMorty, {property: "results"})
-          const result = search(lyra, {term: "rick", properties: ["name"]})
+          const result = await search(lyra, {term: "rick", properties: ["name"]})
 
           same(result.count, 4)
           end()
@@ -37,7 +37,7 @@ test("server runtime", ({test, plan}) => {
 
         test("from online csv", async ({same, end}) => {
           const lyra = await impact(countries)
-          const result = search(lyra, {term: "Colombia"})
+          const result = await search(lyra, {term: "Colombia"})
 
           same(result.count, 1)
           end()
@@ -68,7 +68,7 @@ test("server runtime", ({test, plan}) => {
               property: "characters.results"
             }
           })
-          const result = search(lyra, {term: "rick", properties: ["name"]})
+          const result = await search(lyra, {term: "rick", properties: ["name"]})
 
           same(result.count, 4)
           end()
@@ -83,7 +83,7 @@ test("server runtime", ({test, plan}) => {
 
         test("json", async ({same, end}) => {
           const lyra = await impact("./package.json", {fetch: {fetcher: "filesystem"}})
-          const result = search(lyra, {term: "mateonunez"})
+          const result = await search(lyra, {term: "mateonunez"})
 
           same(result.count, 1)
           end()
