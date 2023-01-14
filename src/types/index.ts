@@ -5,6 +5,7 @@ export type ImpactOptions = {
   lyra?: Omit<LyraConfiguration<any>, "schema">
   fetch?: FetcherOptions<RestOptions | GraphqlOptions | FilesystemOptions>
   property?: string
+  strict?: boolean
 }
 
 export type RestOptions = RequestInit
