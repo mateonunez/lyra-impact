@@ -39,8 +39,8 @@ export function sanitizeString(str: string): string {
   return str.trim()
 }
 
-export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema">): Lyra<T> {
-  const schema = resolveSchema(data)
+export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema"> & {strict?: boolean}): Lyra<T> {
+  const schema = resolveSchema(data, {strict: options?.strict})
   const lyra = create({
     schema,
     ...options
@@ -48,26 +48,26 @@ export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit
   return lyra as unknown as Lyra<T>
 }
 
-export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: any): void {
-  let dataToInsert = data
-
-  if (Array.isArray(dataToInsert)) {
-    for (let entry of dataToInsert) {
+export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: any, options: {strict?: boolean}): void {
+  if (Array.isArray(data)) {
+    for (let entry of data) {
       entry = removeId(entry)
       entry = removeNulls(entry)
 
-      insertLyraData(lyra, entry)
+      insertLyraData(lyra, entry, {strict: options.strict})
     }
   } else {
-    dataToInsert = removeId(dataToInsert)
-    dataToInsert = removeNulls(dataToInsert)
+    if (!options.strict) {
+      for (const field of Object.keys(data)) {
+        if (typeof data[field] === "object") {
+          data[field] = JSON.stringify(data[field])
+        } else {
+          data[field] = String(data[field])
+        }
+      }
 
-    for (const key in dataToInsert) {
-      // Array of objects are not supported yet
-      if (Array.isArray(dataToInsert[key])) delete dataToInsert[key]
+      insert(lyra, data)
     }
-
-    insert(lyra, dataToInsert)
   }
 }
 

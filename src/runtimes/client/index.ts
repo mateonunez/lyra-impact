@@ -10,7 +10,7 @@ export async function impact<T extends PropertiesSchema>(url: string, options?: 
   const data = (await fetcher(url, {...fetcherOptions})) as unknown as T
   const lyra = createLyra(data, options?.lyra)
 
-  insertLyraData(lyra, data)
+  insertLyraData(lyra, data, {strict: options?.strict || false})
 
   return lyra as unknown as Lyra<T>
 }
