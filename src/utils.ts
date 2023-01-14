@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import {Configuration as LyraConfiguration, create, insert, Lyra, PropertiesSchema} from "@lyrasearch/lyra"
+import {create, insert} from "@lyrasearch/lyra"
 import {UNSUPPORTED_CONTENT_TYPE} from "./errors"
 import parseCsv from "./runtimes/common/parsers/csv"
 import parseJson from "./runtimes/common/parsers/json"
 import resolveSchema from "@mateonunez/lyra-schema-resolver"
-
+import {Lyra, Configuration as LyraConfiguration, PropertiesSchema} from "@lyrasearch/lyra/dist/types"
 export type ParseDataOptions = {
   contentType?: string
   extension?: string
@@ -39,22 +39,22 @@ export function sanitizeString(str: string): string {
   return str.trim()
 }
 
-export function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema"> & {strict?: boolean}): Lyra<T> {
+export async function createLyra<T extends PropertiesSchema>(data: any, options?: Omit<LyraConfiguration<any>, "schema"> & {strict?: boolean}): Promise<Lyra<T>> {
   const schema = resolveSchema(data, {strict: options?.strict})
-  const lyra = create({
+  const lyra = await create({
     schema,
     ...options
   })
-  return lyra as unknown as Lyra<T>
+  return lyra as unknown as Promise<Lyra<T>>
 }
 
-export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: any, options: {strict?: boolean}): void {
+export async function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: any, options: {strict?: boolean}): Promise<void> {
   if (Array.isArray(data)) {
     for (let entry of data) {
       entry = removeId(entry)
       entry = removeNulls(entry)
 
-      insertLyraData(lyra, entry, {strict: options.strict})
+      await insertLyraData(lyra, entry, {strict: options.strict})
     }
   } else {
     if (!options.strict) {
@@ -66,7 +66,7 @@ export function insertLyraData<T extends PropertiesSchema>(lyra: Lyra<T>, data: 
         }
       }
 
-      insert(lyra, data)
+      await insert(lyra, data)
     }
   }
 }
